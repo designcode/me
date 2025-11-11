@@ -1,0 +1,146 @@
+---
+layout: ../../layouts/PostLayout.astro
+title: "Organize large codebase with domains and libraries"
+date: "2024-10-02"
+---
+
+We have all experienced how quickly frontend applications can become overwhelming as projects grow in size and scope. One effective way to maintain structure and scalability is by applying Domain-Driven Design (DDD), a methodology that focuses on aligning the codebase with core business logic. Traditionally associated with backend systems, DDD can also bring significant benefits to the frontend, creating more modular, maintainable, and understandable code with clear boundaries.
+
+Although frameworks like NX can help you achieve this, in most cases, you might not need it. Monorepo tooling like NX, in my experience, only makes sense if you're shipping multiple applications (think of a web app, a mobile app, a browser extension, etc.) that share the same features. NX offers more than just code organization and module boundaries, such as faster builds and dependency graphs. So, if those are your only requirements, it may not be necessary to opt for it.
+
+In this blog post, we'll use an example application to explore the principles of DDD and how we can apply them to frontend development. We will also examine how to organize code using different types of libraries or modules to build scalable and well-structured applications.
+
+---
+
+## Application
+
+Before we start diving into concept and code, let's figure out some high level details about the example application we're going to build as part of this exercise. The application is rather simplistic. It offers the user a way to add, edit and delete their TODOs. At the moment, it stores the TODOs in browser's `localStorage`.
+
+The application is simple enough not to be divided enough into domains and libraries but we architect it knowing more requirements and features like persisting the data on a backend using a REST API and signup/login are on the roadmap. Moreover, it doesn't have to be a green-field project, you can refactor your existing app to organize into domains and libraries.
+
+Although we will Angular to build this application, these patterns are applicable to nearly all frameworks that offer some sort of routing mechanism. Instead of opting in for `NX`, we will use some basic features of TypeScript available through its `tsconfig` file.
+
+This example app can be found [here on github](https://github.com/designcode/experiments-webapp).
+
+---
+
+## Domains
+
+The concept is rather simple, we're going to model our code according to business domain. At the moment, we only have one model that is TODOs. That domain can be further split into features like add, edit and delete. So before you even start thinking about libraries, think and think hard of your domains.
+
+Besides business domains, there are a couple of application architecture related domains that I like to have in my setup
+
+- core
+- shared
+- ui
+
+### - core
+
+`core` is where the core building blocks of application belongs. Don't confuse it with shared blocks though. Think of `auth`, `storage` and `i18n` etc. Ideally, modules from this library should be provided in application config (`app.config` for Angular).
+
+### - shared
+
+As the name implies, shared code goes here. Think of that utility method that is used across the code in multiple domains/libraries. Create separate folders/libs in shared domain and keep it clean and organized. Just because you're not sure yet that where a piece of code belongs doesn't make it eligible for shared.
+
+### - ui
+
+This is where we can place all the reusablere dumb components and styles. Make sure to only place components here that don't need data-access and/or feature specific service/functionality to work. These components ideally should work only with `Input` and `Output` (`props` in React).
+
+---
+
+## Libraries
+
+Again, I can't emphasize enough that for something simple enough as a TODO application you don't need all the over-engineering. But as mentioned earlier, we're architecting an app that has many new features coming soon. It's always a good idea to create these libraries into a domain.
+
+I've worked on some large scale applications that not only had a few domains, they were also shipped for different platforms. Together with my teams, we split the code into following libraries,
+
+- data-access
+- ui-components
+- feature
+- shell
+
+### - data-access
+
+To define a data-access library (for a business domain) in most easy terms for a webapp, this is the library where you maintain the code for your API calls. But it's not necessarily limited to it. The wrapper to access data from another source like `LocalStorage` or `IndexedDb` can also be placed here. Essentially, this type of library provides an interface for consumers (features) to invoke a datasource and get the response back from it.
+
+Working on any domain, I personally like to start with writing/organizing this library as the first step. That ensures that I am not letting the UI define my data models and I am keeping it closer to the actual API.
+
+Limit what you export from these libraries. In some of my previous projects, I used state management using `NgRx` and I would only export `actions`, `selectors` and api types (Request payload and Responses etc) . In the end, a consumer only needs set of `actions` to trigger an `effect` and then a `selector` to retrieve the updated state.
+
+### - ui-components
+
+This is an optional type of library and you don't necessarily need it in every domain. This library combines atomic components from the `ui` domain to construct molecular components. Think of a component with heading that's left aligned and button right aligned that you need to use in this domain in more than one feature. You can build this component using `ButtonComponent` from `ui` and place that component in this library.
+
+### - feature
+
+This library is where we combine the `data-access` together with `ui` and `ui-components` to build the feature. Ideally, they should only import from `data-access`, `shared`, `ui-components` and only services from `core`.
+
+### - shell
+
+This is perhaps the most underrated yet really powerful kind of library. This allows us to keep our application config minimal and only top-level and not to deal with different routes and the configuration that comes with it. All that functionality can be offloaded to `shell` libraries. It's also extremely useful specially when you ship multiple apps from the same repository.
+
+---
+
+## Constraint and Module Boundaries
+
+In order to achieve a cleaner and architecture, it's important to create some constraint and boundaries. That enforce us to re-think architecture upfront and help split code in a logical way. Here are some of the constraints that I've been practicing in my projects and that have helped us achieved clean abstraction and boundaries.
+
+1- Application/Application Config (`app.config.ts` in our example app) should only be allowed to import from `core` and `shared`. Next to that, they should only import routing config from `shell(s)` and not directly from `feature(s)`.
+
+Of course there are exceptions to this, like you might have to import from `ui` like provide config for an overlay component, or import an `interceptor` from data-access but those exceptions should be explicit as oppose to implicit.
+
+2- `shell` should only be allowed to import routing configs from `feature(s)`.
+
+3- `data-access` should only be allowed to import from `core` and `shared`.
+
+4- `feature` should only be allowed to import from `data-access`, `shared`, `ui-components` and only services from `core`. They can, under no circumstances can import from `app config` and/or `shell(s)`.
+
+---
+
+## TODO App
+
+Now that we know different type of libraries, we will use them to build a TODO app. The source code for the app can be [found here](https://github.com/designcode/experiments-webapp). Before we start writing code, let's again analyze the requirements.
+
+- An application where user can add/edit/delete/view their Todos
+- For now, todos will be stored in `localStorage`
+
+With the above information in mind, let's start creating app. Before we get into todo specific functionality, let's setup the application config and core domain. For that purpose, we will
+
+- Create a `lib` folder in `src` folder.
+- Create `core`, `shared` and `ui` folders in `lib` folder and this becomes our core domain.
+- Create `storage` service in `core` domain and export it.
+- Create re-usable components in `ui` folder and export them.
+- Write any re-usable code/util functions etc in shared folder and export them.
+
+Now that we have created `core` domain, we move onto designing `**todo**` domain,
+
+- Create `todo` domain in `libs` folder and this becomes our todo domain where we place our libraries.
+- Create `data-access` folder inside `todo` and create a todo service that extends storage service from `core`
+- Create 2 feature libs, `feat-edit` and `feat-list` and implement the feature related functionality.
+- Create `shell` library that ties `app` with feature.
+
+Now, we can use `paths` property in `tsconfig` to make the imports look nicer.
+
+```typescript
+"paths": {
+  "@core/*": ["src/libs/core/*"],
+  "@shared/*": ["src/libs/shared/*"],
+  "@ui/*": ["src/libs/ui/*"],
+  "@todo/shell": ["src/libs/todo/shell/index.ts"],
+  "@todo/data-access": ["src/libs/todo/data-access/index.ts"],
+  "@todo/feature-list": ["src/libs/todo/feature-list/index.ts"],
+  "@todo/feature-edit": ["src/libs/todo/feature-edit/index.ts"]
+}
+```
+
+Now instead of having to import using long relative paths, you can use them using nicer short paths,
+
+```typescript
+import { TodoItem, TodoStatus } from "./../../../../todo/data-access/";
+// Below is much better and cleaner
+import { TodoItem, TodoStatus } from "@todo/data-access";
+```
+
+## Conclusion
+
+To summarize, creating domains and libraries and their import boundaries allow us to create a clean and scalable application architecture. You don't necessarily need a tool for that but it's a good idea to look into mono-repo tools like NX when you start shipping multiple application from same repo that make use of similar libraries.
