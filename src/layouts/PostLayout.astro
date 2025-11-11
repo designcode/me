@@ -1,0 +1,32 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  frontmatter: {
+    title: string;
+    date: string;
+    description: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+---
+
+<BaseLayout title={BaseLayout.title} description={frontmatter.description}>
+  <article>
+    <header style="margin-bottom: 2rem;">
+      <h1 style="margin-bottom: 0.75rem;">{frontmatter.title}</h1>
+      <p style="color: var(--color-secondary); font-size: 0.9rem;">
+        {new Date(frontmatter.date).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })}
+      </p>
+    </header>
+    <div style="margin-bottom: 3rem;">
+      <slot />
+    </div>
+    <a href="/" style="display: inline-block; margin-top: 2rem;">← Back to all posts</a>
+  </article>
+</BaseLayout>
