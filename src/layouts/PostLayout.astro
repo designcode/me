@@ -5,7 +5,7 @@ interface Props {
   frontmatter: {
     title: string;
     date: string;
-    description: string;
+    description?: string;
   };
 }
 
@@ -14,19 +14,19 @@ const { frontmatter } = Astro.props;
 
 <BaseLayout title={BaseLayout.title} description={frontmatter.description}>
   <article>
-    <header style="margin-bottom: 2rem;">
-      <h1 style="margin-bottom: 0.75rem;">{frontmatter.title}</h1>
-      <p style="color: var(--color-secondary); font-size: 0.9rem;">
+    <header class="mb-12">
+      <h1 class="text-4xl font-semibold leading-tight mb-3 text-primary mt-0">{frontmatter.title}</h1>
+      <time class="text-secondary text-sm">
         {new Date(frontmatter.date).toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'long',
           day: 'numeric'
         })}
-      </p>
+      </time>
     </header>
-    <div style="margin-bottom: 3rem;">
+    <div class="mb-12">
       <slot />
     </div>
-    <a href="/" style="display: inline-block; margin-top: 2rem;">← Back to all posts</a>
+    <a href="/" class="inline-block mt-8 text-foreground hover:text-primary transition-colors no-underline">← Back to all posts</a>
   </article>
 </BaseLayout>
