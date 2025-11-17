@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import ThemeToggle from "../components/ThemeToggle.astro";
 
 interface Props {
   title?: string;
@@ -18,6 +19,23 @@ const { title, description = "Thoughts and Ramblings" } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <title>{title}</title>
+    <script is:inline>
+      const theme = (() => {
+        if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+          return localStorage.getItem("theme");
+        }
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          return "dark";
+        }
+        return "light";
+      })();
+
+      if (theme === "dark") {
+        document.documentElement.setAttribute("data-theme", "dark");
+      } else {
+        document.documentElement.removeAttribute("data-theme");
+      }
+    </script>
   </head>
   <body class="bg-white text-primary leading-relaxed">
     <div class="site-container">
@@ -38,6 +56,7 @@ const { title, description = "Thoughts and Ramblings" } = Astro.props;
             >
           </p>
         </div>
+        <ThemeToggle />
       </aside>
 
       <main class="main-content">
