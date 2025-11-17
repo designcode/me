@@ -1,35 +1,30 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostList from "../components/PostList.astro";
+import CategorySidebar from "../components/CategorySidebar.astro";
 
-const postFiles = import.meta.glob('./posts/*.mdx', { eager: true });
-const posts = Object.entries(postFiles).map(([path, post]: [string, any]) => ({
-  url: path.replace('./posts/', '/posts/').replace('.mdx', ''),
-  frontmatter: post.frontmatter
-})).sort(
-  (a, b) => new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf()
-);
+const postFiles = import.meta.glob("./posts/*.mdx", { eager: true });
+const posts = Object.entries(postFiles)
+  .map(([path, post]: [string, any]) => ({
+    url: path.replace("./posts/", "/posts/").replace(".mdx", ""),
+    frontmatter: post.frontmatter,
+  }))
+  .sort(
+    (a, b) =>
+      new Date(b.frontmatter.date).valueOf() -
+      new Date(a.frontmatter.date).valueOf()
+  );
+
+// Get unique categories
+const categories = [
+  ...new Set(posts.map((post) => post.frontmatter.category).filter(Boolean)),
+].sort();
 ---
 
-<BaseLayout title="designcode.me" description="Thoughts and Ramblings">
-  <div style="display: flex; flex-direction: column; gap: 2rem;">
-    {posts.map(post => (
-      <article>
-        <h2 style="margin-bottom: 0.5rem;">
-          <a href={post.url} style="text-decoration: none;">
-            {post.frontmatter.title}
-          </a>
-        </h2>
-        <p style="color: var(--color-secondary); font-size: 0.9rem; margin-bottom: 0.75rem;">
-          {new Date(post.frontmatter.date).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}
-        </p>
-        <p style="margin-bottom: 0;">
-          {post.frontmatter.description}
-        </p>
-      </article>
-    ))}
-  </div>
+<BaseLayout
+  title="designcode.me"
+  description="Thoughts and Ramblings of a programmer and long distance runner"
+>
+  <CategorySidebar categories={categories} slot="sidebar" />
+  <PostList posts={posts} />
 </BaseLayout>

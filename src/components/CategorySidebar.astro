@@ -1,0 +1,20 @@
+---
+interface Props {
+  categories: string[];
+  currentCategory?: string;
+}
+
+const { categories, currentCategory } = Astro.props;
+---
+
+<div class="category-sidebar">
+  <h3 class="sidebar-heading">Categories</h3>
+  {categories.length > 0 && (
+    <nav class="category-nav">
+      <a href="/" class={`category-link ${!currentCategory ? 'active' : ''}`}>All</a>
+      {categories.map(category => (
+        <a href={`/${category.toLowerCase()}`} class={`category-link ${currentCategory?.toLowerCase() === category.toLowerCase() ? 'active' : ''}`}>{category}</a>
+      ))}
+    </nav>
+  )}
+</div>

@@ -1,0 +1,57 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostList from "../components/PostList.astro";
+import CategorySidebar from "../components/CategorySidebar.astro";
+
+export async function getStaticPaths() {
+  const postFiles = import.meta.glob("./posts/*.mdx", { eager: true });
+  const posts = Object.entries(postFiles).map(
+    ([path, post]: [string, any]) => ({
+      url: path.replace("./posts/", "/posts/").replace(".mdx", ""),
+      frontmatter: post.frontmatter,
+    })
+  );
+
+  // Get unique categories
+  const categories = [
+    ...new Set(posts.map((post) => post.frontmatter.category).filter(Boolean)),
+  ];
+
+  // Create a path for each category
+  return categories.map((category) => ({
+    params: { category: category.toLowerCase() },
+    props: { category, posts },
+  }));
+}
+
+const { category, posts } = Astro.props;
+
+// Filter posts by category
+const filteredPosts = posts
+  .filter(
+    (post: any) =>
+      post.frontmatter.category?.toLowerCase() === category.toLowerCase()
+  )
+  .sort(
+    (a: any, b: any) =>
+      new Date(b.frontmatter.date).valueOf() -
+      new Date(a.frontmatter.date).valueOf()
+  );
+
+// Get all unique categories for sidebar
+const allCategories = [
+  ...new Set(
+    posts.map((post: any) => post.frontmatter.category).filter(Boolean)
+  ),
+].sort();
+---
+
+<BaseLayout title={category} description={`Posts in the category ${category}`}>
+  <CategorySidebar
+    categories={allCategories}
+    currentCategory={category}
+    slot="sidebar"
+  />
+  <h1 class="page-heading">{category}</h1>
+  <PostList posts={filteredPosts} />
+</BaseLayout>
