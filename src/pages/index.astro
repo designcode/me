@@ -12,24 +12,31 @@ const posts = Object.entries(postFiles).map(([path, post]: [string, any]) => ({
 
 <BaseLayout title="designcode.me" description="Thoughts and Ramblings">
   <div style="display: flex; flex-direction: column; gap: 2rem;">
-    {posts.map(post => (
-      <article>
-        <h2 style="margin-bottom: 0.5rem;">
-          <a href={post.url} style="text-decoration: none;">
-            {post.frontmatter.title}
-          </a>
-        </h2>
-        <p style="color: var(--color-secondary); font-size: 0.9rem; margin-bottom: 0.75rem;">
-          {new Date(post.frontmatter.date).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}
-        </p>
-        <p style="margin-bottom: 0;">
-          {post.frontmatter.description}
-        </p>
-      </article>
-    ))}
+    {posts.map(post => {
+      const isExternal = !!post.frontmatter.externalUrl;
+      const linkUrl = isExternal ? post.frontmatter.externalUrl : post.url;
+      const linkProps = isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+
+      return (
+        <article>
+          <h2 style="margin-bottom: 0.5rem;">
+            <a href={linkUrl} style="text-decoration: none;" {...linkProps}>
+              {post.frontmatter.title}
+              {isExternal && ' →'}
+            </a>
+          </h2>
+          <p style="color: var(--color-secondary); font-size: 0.9rem; margin-bottom: 0.75rem;">
+            {new Date(post.frontmatter.date).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}
+          </p>
+          <p style="margin-bottom: 0;">
+            {post.frontmatter.description}
+          </p>
+        </article>
+      );
+    })}
   </div>
 </BaseLayout>
