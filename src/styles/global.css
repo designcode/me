@@ -38,6 +38,19 @@ body {
     sans-serif;
 }
 
+/* Global anchor styles */
+a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-decoration-color: var(--color-tertiary);
+  text-underline-offset: 2px;
+  transition: text-decoration-color 0.2s;
+}
+
+a:hover {
+  text-decoration-color: var(--color-primary);
+}
+
 /* Typography styles for markdown content */
 article h1,
 article h2,
@@ -184,10 +197,15 @@ article hr {
   margin-bottom: 0.5rem;
 }
 
+.site-title a {
+  text-decoration: none;
+}
+
 .site-description {
   color: var(--color-secondary);
   font-size: 0.875rem;
   margin: 0;
+  line-height: 1.6;
 }
 
 /* Main Content */
@@ -271,6 +289,11 @@ article hr {
 
 .post-link {
   text-decoration: none;
+  color: var(--color-primary);
+}
+
+.post-link:hover {
+  opacity: 0.7;
 }
 
 .post-meta {
