@@ -11,28 +11,28 @@ const posts = Object.entries(postFiles).map(([path, post]: [string, any]) => ({
 ---
 
 <BaseLayout title="designcode.me" description="Thoughts and Ramblings">
-  <div style="display: flex; flex-direction: column; gap: 2rem;">
+  <div class="posts-list">
     {posts.map(post => {
       const isExternal = !!post.frontmatter.externalUrl;
       const linkUrl = isExternal ? post.frontmatter.externalUrl : post.url;
       const linkProps = isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {};
 
       return (
-        <article>
-          <h2 style="margin-bottom: 0.5rem;">
-            <a href={linkUrl} style="text-decoration: none;" {...linkProps}>
+        <article class="post-item">
+          <h2 class="post-title">
+            <a href={linkUrl} class="post-link" {...linkProps}>
               {post.frontmatter.title}
               {isExternal && ' →'}
             </a>
           </h2>
-          <p style="color: var(--color-secondary); font-size: 0.9rem; margin-bottom: 0.75rem;">
+          <p class="post-date">
             {new Date(post.frontmatter.date).toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'long',
               day: 'numeric'
             })}
           </p>
-          <p style="margin-bottom: 0;">
+          <p class="post-description">
             {post.frontmatter.description}
           </p>
         </article>
