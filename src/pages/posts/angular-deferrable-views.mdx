@@ -2,6 +2,7 @@
 layout: ../../layouts/PostLayout.astro
 title: "Angular's Deferrable Views"
 date: "2024-08-15"
+category: "Technology"
 ---
 
 If you're following Angular development, there has been a rapid evolution in features and API. Angular 17 introduced template control flow that provides the mechanism to dynamically control how and when components and elements are rendered on the page.
@@ -14,13 +15,13 @@ To understand the how the deferrable work, we'll use some examples as we go. Con
 
 ```typescript
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   standalone: true,
   imports: [MyComponent],
   template: `
     <div class="container">
       @if (showComponent) {
-        <MyComponent />
+      <MyComponent />
       }
       <button (click)="showComponent = true">Show Component</button>
     </div>
@@ -39,13 +40,13 @@ Let's replace the `@if` block with `@defer`
 
 ```typescript
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   standalone: true,
   imports: [MyComponent],
   template: `
     <div class="container">
       @defer (when showComponent) {
-        <MyComponent />
+      <MyComponent />
       }
       <button (click)="showComponent = true">Show Component</button>
     </div>
@@ -68,22 +69,19 @@ Let's take a look at the other building blocks of deferrable that can be combine
 
 ```typescript
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   standalone: true,
   imports: [MyComponent],
   template: `
     <div class="container">
       @defer (when showComponent) {
-        <MyComponent />
-      }
-      @placeholder {
-        <button (click)="showComponent = true">Show Component</button>
-      }
-      @loading {
-        <p>Loading MyComponent</p>
-      }
-      @error {
-        <p>MyComponent Failed to load</p>
+      <MyComponent />
+      } @placeholder {
+      <button (click)="showComponent = true">Show Component</button>
+      } @loading {
+      <p>Loading MyComponent</p>
+      } @error {
+      <p>MyComponent Failed to load</p>
       }
     </div>
   `,
@@ -107,13 +105,13 @@ This is the most basic variation of `on` condition. It makes `MyComponent` lazy 
 
 ```typescript
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   standalone: true,
   imports: [MyComponent],
   template: `
     <div class="container">
       @defer (on immediate) {
-        <MyComponent />
+      <MyComponent />
       }
     </div>
   `,
@@ -127,13 +125,13 @@ Quite a powerful variation of `on` condition IMHO. It uses the [`requestIdleCall
 
 ```typescript
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   standalone: true,
   imports: [MyComponent],
   template: `
     <div class="container">
       @defer (on idle) {
-        <MyComponent />
+      <MyComponent />
       }
     </div>
   `,
@@ -198,13 +196,13 @@ The `on interaction` condition allows us to defer the loading and rendering of c
 
 ```typescript
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   standalone: true,
   imports: [MyComponent],
   template: `
     <div class="container">
       @defer (on interaction(trigger)) {
-        <MyComponent />
+      <MyComponent />
       }
 
       <button #trigger>Show Component</button>
@@ -218,16 +216,15 @@ Alternatively, you can also use `placeholder` as the interaction trigger for def
 
 ```typescript
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   standalone: true,
   imports: [MyComponent],
   template: `
     <div class="container">
       @defer (on interaction) {
-        <MyComponent />
-      }
-      @placeholder {
-        <button>Show Component</button>
+      <MyComponent />
+      } @placeholder {
+      <button>Show Component</button>
       }
     </div>
   `,
@@ -241,13 +238,13 @@ The `on hover` condition allows us to defer the rendering of component trigger e
 
 ```typescript
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   standalone: true,
   imports: [MyComponent],
   template: `
     <div class="container">
       @defer (on hover(trigger)) {
-        <MyComponent />
+      <MyComponent />
       }
 
       <button #trigger>Show Component</button>
@@ -261,16 +258,15 @@ Alternatively, you can also use `placeholder` as the trigger for deferred conten
 
 ```typescript
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   standalone: true,
   imports: [MyComponent],
   template: `
     <div class="container">
       @defer (on hover) {
-        <MyComponent />
-      }
-      @placeholder {
-        <button>Show Component</button>
+      <MyComponent />
+      } @placeholder {
+      <button>Show Component</button>
       }
     </div>
   `,
@@ -284,16 +280,15 @@ The `on timer` condition lets you delay the rendering of content based on time. 
 
 ```typescript
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   standalone: true,
   imports: [MyComponent],
   template: `
     <div class="container">
       @defer (on timer(5000ms)) {
-        <p>I will be rendered after 5 seconds!</p>
-      }
-      @placeholder {
-        <p>I am a placeholder!</p>
+      <p>I will be rendered after 5 seconds!</p>
+      } @placeholder {
+      <p>I am a placeholder!</p>
       }
     </div>
   `,
@@ -307,13 +302,13 @@ Angular deferrable provides prefetching out of the box. What it means that you c
 
 ```typescript
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   standalone: true,
   imports: [MyComponent],
   template: `
     <div class="container">
       @defer (when showComponent; prefetch when prefetchComponent) {
-        <MyComponent />
+      <MyComponent />
       }
 
       <button (click)="prefetchComponent = true">Prefetch Component</button>
@@ -381,16 +376,15 @@ In following example, we want to continue showing the placeholder for 500 millis
 
 ```typescript
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   standalone: true,
   imports: [MyComponent],
   template: `
     <div class="container">
       @defer (on interaction) {
-        <MyComponent />
-      }
-      @placeholder (minimum 500) {
-        <button>Show Component</button>
+      <MyComponent />
+      } @placeholder (minimum 500) {
+      <button>Show Component</button>
       }
     </div>
   `,
@@ -402,17 +396,14 @@ Another example below allows us to show the `loading` block after 1 second and c
 
 ```typescript
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   standalone: true,
   imports: [MyComponent],
   template: `
     <div class="container">
       @defer (on interaction(trigger)) {
-        <MyComponent />
-      }
-      @loading (after 1000; minimum 5000) {
-        Loading....
-      }
+      <MyComponent />
+      } @loading (after 1000; minimum 5000) { Loading.... }
 
       <button #trigger>Show Component</button>
     </div>

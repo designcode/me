@@ -7,6 +7,7 @@ interface Props {
     date: string;
     description?: string;
     externalUrl?: string;
+    category?: string;
   };
 }
 
@@ -17,13 +18,18 @@ const { frontmatter } = Astro.props;
   <article>
     <header class="mb-12">
       <h1 class="text-4xl font-semibold leading-tight mb-3 text-primary mt-0">{frontmatter.title}</h1>
-      <time class="text-secondary text-sm">
-        {new Date(frontmatter.date).toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        })}
-      </time>
+      <div class="flex items-center gap-3">
+        <time class="text-secondary text-sm">
+          {new Date(frontmatter.date).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })}
+        </time>
+        {frontmatter.category && (
+          <span class="post-category">{frontmatter.category}</span>
+        )}
+      </div>
     </header>
     <div class="mb-12">
       <slot />
