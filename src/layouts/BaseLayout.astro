@@ -1,15 +1,15 @@
 ---
-import '../styles/global.css';
+import "../styles/global.css";
 
 interface Props {
   title?: string;
   description?: string;
 }
 
-const { title = 'designcode.me', description = 'Thoughts and Ramblings' } = Astro.props;
+const { title, description = "Thoughts and Ramblings" } = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -19,17 +19,43 @@ const { title = 'designcode.me', description = 'Thoughts and Ramblings' } = Astr
     <meta name="description" content={description} />
     <title>{title}</title>
   </head>
-  <body class="bg-white text-primary leading-relaxed max-w-[680px] mx-auto px-6 py-12">
-    <header>
-      <nav class="border-b border-tertiary pb-6 mb-10">
-        <a href="/" class="text-xl font-semibold no-underline hover:opacity-70 transition-opacity">{title}</a>
-      </nav>
-    </header>
-    <main>
-      <slot />
-    </main>
-    <footer class="mt-8 pt-8 border-t border-tertiary text-secondary text-sm">
-      <p>Built with <a href="https://astro.build" class="text-secondary hover:text-primary">Astro</a>.</p>
+  <body class="bg-white text-primary leading-relaxed">
+    <div class="site-container">
+      <aside class="sidebar-left">
+        <div class="site-header">
+          <h1 class="site-title">
+            <a href="/" class="no-underline hover:opacity-70 transition-opacity"
+              >designcode.me</a
+            >
+          </h1>
+          <p class="site-description">
+            I am a <a href="https://www.linkedin.com/in/abdullahibrahim/"
+              >programmer</a
+            > and <a href="https://www.strava.com/athletes/designcode"
+              >long distance runner</a
+            >. I love traveling, hiking, taking photos and making <a
+              href="https://youtube.com/designcode">videos</a
+            >
+          </p>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <slot />
+      </main>
+
+      <aside class="sidebar-right">
+        <slot name="sidebar" />
+      </aside>
+    </div>
+
+    <footer class="site-footer">
+      <p>
+        Built with <a
+          href="https://astro.build"
+          class="text-secondary hover:text-primary">Astro</a
+        >.
+      </p>
     </footer>
   </body>
 </html>

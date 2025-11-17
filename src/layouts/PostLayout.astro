@@ -1,5 +1,5 @@
 ---
-import BaseLayout from './BaseLayout.astro';
+import BaseLayout from "./BaseLayout.astro";
 
 interface Props {
   frontmatter: {
@@ -14,26 +14,36 @@ interface Props {
 const { frontmatter } = Astro.props;
 ---
 
-<BaseLayout title={BaseLayout.title} description={frontmatter.description}>
+<BaseLayout title={frontmatter.title} description={frontmatter.description}>
   <article>
     <header class="mb-12">
-      <h1 class="text-4xl font-semibold leading-tight mb-3 text-primary mt-0">{frontmatter.title}</h1>
+      <h1 class="text-4xl font-semibold leading-tight mb-3 text-primary mt-0">
+        {frontmatter.title}
+      </h1>
       <div class="flex items-center gap-3">
         <time class="text-secondary text-sm">
-          {new Date(frontmatter.date).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}
+          {
+            new Date(frontmatter.date).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })
+          }
         </time>
-        {frontmatter.category && (
-          <span class="post-category">{frontmatter.category}</span>
-        )}
+        {
+          frontmatter.category && (
+            <span class="post-category">{frontmatter.category}</span>
+          )
+        }
       </div>
     </header>
     <div class="mb-12">
       <slot />
     </div>
-    <a href="/" class="inline-block mt-8 text-foreground hover:text-primary transition-colors no-underline">← Back to all posts</a>
+    <a
+      href="/"
+      class="inline-block mt-8 text-foreground hover:text-primary transition-colors no-underline"
+      >← Back to all posts</a
+    >
   </article>
 </BaseLayout>
