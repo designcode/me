@@ -21,7 +21,10 @@ const { title, description = "Thoughts and Ramblings" } = Astro.props;
     <title>{title}</title>
     <script is:inline>
       const theme = (() => {
-        if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+        if (
+          typeof localStorage !== "undefined" &&
+          localStorage.getItem("theme")
+        ) {
           return localStorage.getItem("theme");
         }
         if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
@@ -43,7 +46,9 @@ const { title, description = "Thoughts and Ramblings" } = Astro.props;
         <div class="site-header">
           <div class="site-title-row">
             <h1 class="site-title">
-              <a href="/" class="no-underline hover:opacity-70 transition-opacity"
+              <a
+                href="/"
+                class="no-underline hover:opacity-70 transition-opacity"
                 >designcode.me</a
               >
             </h1>
@@ -56,11 +61,16 @@ const { title, description = "Thoughts and Ramblings" } = Astro.props;
               >programmer</a
             > and <a href="https://www.strava.com/athletes/designcode"
               >long distance runner</a
-            >. I love traveling, hiking, taking photos and making <a
-              href="https://youtube.com/designcode">videos</a
-            >
+            >. I love traveling, <a href="/hikes">hiking</a>, <a href="/photos"
+              >taking photos</a
+            > and making <a href="/videos">videos</a>.
+          </p>
+
+          <p class="site-description">
+            This site is a collection of my thoughts, activities and projects.
           </p>
         </div>
+
         <div class="theme-toggle-desktop">
           <ThemeToggle />
         </div>

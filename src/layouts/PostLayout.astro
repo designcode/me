@@ -3,6 +3,7 @@ import BaseLayout from "./BaseLayout.astro";
 import EmbedYoutube from "../components/EmbedYoutube.astro";
 import EmbedStrava from "../components/EmbedStrava.astro";
 import EmbedInstagram from "../components/EmbedInstagram.astro";
+import EmbedAllTrails from "../components/EmbedAllTrails.astro";
 
 interface Props {
   frontmatter: {
@@ -11,7 +12,7 @@ interface Props {
     description?: string;
     externalUrl?: string;
     category?: string;
-    embedType?: "youtube" | "strava" | "instagram";
+    embedType?: "youtube" | "strava" | "instagram" | "alltrails";
     embedId?: string;
   };
 }
@@ -46,13 +47,22 @@ const { frontmatter } = Astro.props;
       frontmatter.embedType && frontmatter.embedId && (
         <div class="embed-wrapper mb-12">
           {frontmatter.embedType === "youtube" && (
-            <EmbedYoutube videoId={frontmatter.embedId} title={frontmatter.title} />
+            <EmbedYoutube
+              videoId={frontmatter.embedId}
+              title={frontmatter.title}
+            />
           )}
           {frontmatter.embedType === "strava" && (
             <EmbedStrava activityId={frontmatter.embedId} />
           )}
           {frontmatter.embedType === "instagram" && (
             <EmbedInstagram postId={frontmatter.embedId} />
+          )}
+          {frontmatter.embedType === "alltrails" && (
+            <EmbedAllTrails
+              trailId={frontmatter.embedId}
+              title={frontmatter.title}
+            />
           )}
         </div>
       )
