@@ -1,5 +1,7 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
+import EmbedYoutube from "../components/EmbedYoutube.astro";
+import EmbedStrava from "../components/EmbedStrava.astro";
 
 interface Props {
   frontmatter: {
@@ -8,6 +10,8 @@ interface Props {
     description?: string;
     externalUrl?: string;
     category?: string;
+    embedType?: "youtube" | "strava";
+    embedId?: string;
   };
 }
 
@@ -37,6 +41,18 @@ const { frontmatter } = Astro.props;
         }
       </div>
     </header>
+    {
+      frontmatter.embedType && frontmatter.embedId && (
+        <div class="embed-wrapper mb-12">
+          {frontmatter.embedType === "youtube" && (
+            <EmbedYoutube videoId={frontmatter.embedId} title={frontmatter.title} />
+          )}
+          {frontmatter.embedType === "strava" && (
+            <EmbedStrava activityId={frontmatter.embedId} />
+          )}
+        </div>
+      )
+    }
     <div class="mb-12">
       <slot />
     </div>

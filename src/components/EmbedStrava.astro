@@ -1,0 +1,18 @@
+---
+interface Props {
+  activityId: string;
+}
+
+const { activityId } = Astro.props;
+---
+
+<div class="embed-container strava-embed">
+  <div
+    class="strava-embed-placeholder"
+    data-embed-type="activity"
+    data-embed-id={activityId}
+    data-style="standard"
+    data-from-embed="false"
+  >
+  </div><script is:inline src="https://strava-embeds.com/embed.js"></script>
+</div>
