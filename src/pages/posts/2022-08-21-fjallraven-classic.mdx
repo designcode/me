@@ -1,0 +1,64 @@
+---
+layout: ../../layouts/PostLayout.astro
+title: "Fjällräven Classic with Kebnekaise"
+date: "2022-08-21"
+category: "Hikes"
+embedType: youtube
+embedId: Y6JkngZ8Pyc
+---
+
+import EmbedAllTrails from "../../components/EmbedAllTrails.astro";
+
+I hiked Fjallraven Classic in 5 days + 1 day for Kebnekaise. It was also a solo hike after a long time for me. From day 3, I was also without Phone or Internet connection so it was quite an experience.
+
+Based on my experience, I’d suggest to do it 7 days instead of 5 and also do it from North to South.
+
+import Timeline from "../../components/Timeline.astro";
+
+<Timeline
+  items={[
+    {
+      date: "Day 1 | August 21st | Distance: 19km",
+      title: "Nikkaluokta to Kebnekaise Fjallstation",
+      description:
+        "I started hike at 16:30 in evening and walked almost 20 kilometers in 4 hours. Trail is pretty well marked and not much elevation gain. Weather was also dry however mosquitoes ate me alive.",
+    },
+    {
+      date: "Day 2 | August 22nd | Distance: 18km",
+      title: "Kebnekaise Fjallstation to Kebnekaise",
+      description:
+        "Second day, I knew it would be tough, having climbed the South peak of Kebnekaise 4 years ago, I knew it would be a lot of effort going up and back. This time, I was alone during the hike and when I reached almost near the peak (200 meters from it), I decided that it wasn't safe as the visibility was terrible and it was super windy.",
+    },
+    {
+      date: "Day 3 | August 23rd | Distance: 27km",
+      title: "Kebnekaise Fjallstation to Sälka",
+      description:
+        "Today was the longest day in terms for distance but also the most horrible weather. Wind gusts above 50 km/hr with rain prevented me from moving forward. First 14 kilometers were terrible but I kept on pushing. Every now and then, it would stop raining and rainbow would appear somewhere.",
+    },
+    {
+      date: "Day 4 | August 24th | Distance: 25km",
+      title: "Sälka - Alesjaure",
+      description:
+        "Today was finally the sunny day. I started early in the morning and enjoyed the hike in the sun. I also passed the Sälka Pass which is the highest point for trail. A bit tough trail but thanks to sunshine, it became easier. I arrived the hut early around 15:00 and enjoyed the time sitting in sun by myself and then hung out with cool people in the hut.",
+    },
+    {
+      date: "Day 5 | August 25th | Distance: 21km",
+      title: "Alesjaure - Abiskojaure",
+      description:
+        "Another sunny day, so I started a little later than I would (around 9). Hiked through some beautiful lakes, passed through the Abisko National Park and saw very unique Arctic forest. In terms of nature, today was my favorite day. However, mosquitos were waiting for me at Abiskojaure.",
+    },
+    {
+      date: "Day 6 | August 26th | Distance: 15km",
+      title: "Abiskojaure - Abisko",
+      description:
+        "By now, I was really eager to finish the hike. I was done eating the instant meals so I couldn't eat them for breakfast. I got up as early as 6 and started hike at 7 in morning. I wanted to get to civilization where I can have access to my Internet and proper food. I hiked (almost) non stop and I was in Abisko around 10.",
+    },
+  ]}
+/>
+<p>
+  <EmbedAllTrails
+    title="Fjällräven Classic with Kebnekaise"
+    description="Fjällräven Classic with Kebnekaise"
+    url="https://www.alltrails.com/explore/recording/fjallraven-classic-with-kebnekaise-15c71b8"
+  />
+</p>
