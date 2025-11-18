@@ -3,8 +3,26 @@ layout: ../../layouts/PostLayout.astro
 title: "Isle of Skye"
 date: "2025-10-07"
 category: "Travels"
-embedType: instagram
-embedId: DP1mYHvinTq
 ---
 
 Trip to Isle of Skye, Scotland from October 2nd to October 7th 2025.
+
+import Timeline from "../../components/Timeline.astro";
+
+<Timeline
+  items={[
+    {
+      date: "Day 1 - October 2nd",
+      title: "Arrival in Isle of Skye",
+      description:
+        "Landed in Edinburgh, picked up car and started driving to Isle of Skye. Made a stop for dinner at The Whispering Pine Lodge and continued to Skye. Arrived at our Airbnb in Portree and went to sleep.",
+    },
+    {
+      date: "Day 2 - October 3rd",
+      title: "Portree",
+      description:
+        "First hike, had breakfast at Birch Cafe and then drove to starting point of the hike. Hiked to the Old Man of Storr. It started to rain crazy towards the end of the hike.",
+      link: "https://www.instagram.com/p/DP1mYHvinTq/",
+    },
+  ]}
+/>

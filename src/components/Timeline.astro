@@ -1,0 +1,45 @@
+---
+export interface TimelineItem {
+  date?: string;
+  title: string;
+  description?: string;
+  link?: string;
+}
+
+interface Props {
+  items: TimelineItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="timeline">
+  {items.map((item) => (
+    <div class="timeline-item">
+      <div class="timeline-marker"></div>
+      <div class="timeline-content">
+        {item.date && (
+          <time class="timeline-date">{item.date}</time>
+        )}
+        {item.link ? (
+          <a
+            href={item.link}
+            class="timeline-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <h3 class="timeline-title">
+              {item.title}
+              <span class="external-indicator">↗</span>
+            </h3>
+          </a>
+        ) : (
+          <h3 class="timeline-title">{item.title}</h3>
+        )}
+        {item.description && (
+          <p class="timeline-description">{item.description}</p>
+        )}
+      </div>
+    </div>
+  ))}
+</div>
