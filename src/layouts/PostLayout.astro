@@ -60,7 +60,7 @@ const { frontmatter } = Astro.props;
           )}
           {frontmatter.embedType === "alltrails" && (
             <EmbedAllTrails
-              trailId={frontmatter.embedId}
+              url={frontmatter.embedId}
               title={frontmatter.title}
             />
           )}

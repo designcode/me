@@ -1,10 +1,26 @@
 ---
 interface Props {
-  trailId: string;
+  url: string;
   title: string;
 }
 
-const { trailId, title } = Astro.props;
+const { url, title } = Astro.props;
+
+// Extract the trail ID from the URL
+// URL format: https://www.alltrails.com/explore/recording/afternoon-hike-at-sella-ciampaz-via-ferrata-masare-6e7d2da
+const extractTrailId = (allTrailsUrl: string): string => {
+  try {
+    const urlObj = new URL(allTrailsUrl);
+    const pathParts = urlObj.pathname.split("/");
+    // Get the last part of the path which is the ID
+    return pathParts[pathParts.length - 1];
+  } catch (e) {
+    // If URL parsing fails, assume it's already just the ID
+    return allTrailsUrl;
+  }
+};
+
+const trailId = extractTrailId(url);
 ---
 
 <div class="embed-container alltrails-embed">
