@@ -3,7 +3,7 @@
 ---
 
 <div class="theme-toggle-wrapper">
-  <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+  <button class="theme-toggle" aria-label="Toggle dark mode">
     <svg
       class="sun-icon"
       width="16"
@@ -51,7 +51,7 @@
     }
   };
 
-  document
-    .getElementById("theme-toggle")
-    ?.addEventListener("click", handleToggleClick);
+  document.querySelectorAll(".theme-toggle").forEach((button) => {
+    button.addEventListener("click", handleToggleClick);
+  });
 </script>

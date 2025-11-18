@@ -205,10 +205,22 @@ article hr {
   height: fit-content;
 }
 
+@media (max-width: 1024px) {
+  .sidebar-left {
+    position: static;
+  }
+}
+
+.site-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
 .site-title {
   font-size: 1.5rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
 }
 
 .site-title a {
@@ -218,8 +230,14 @@ article hr {
 .site-description {
   color: var(--color-secondary);
   font-size: 0.875rem;
-  margin: 0;
+  margin: 1rem 0 0 0;
   line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+  .site-description {
+    display: none;
+  }
 }
 
 /* Main Content */
@@ -342,8 +360,26 @@ article hr {
 }
 
 /* Theme Toggle */
+.theme-toggle-mobile {
+  display: none;
+}
+
+.theme-toggle-desktop {
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .theme-toggle-mobile {
+    display: block;
+  }
+
+  .theme-toggle-desktop {
+    display: none;
+  }
+}
+
 .theme-toggle-wrapper {
-  margin: 5rem 0;
+  margin: 0;
 }
 
 .theme-toggle {
