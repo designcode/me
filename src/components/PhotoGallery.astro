@@ -1,0 +1,63 @@
+---
+import { Image } from "astro:assets";
+
+export interface Photo {
+  src: string;
+  alt?: string;
+  width?: number;
+  height?: number;
+}
+
+interface Props {
+  photos: Photo[];
+  columns?: 2 | 3 | 4;
+  thumbnailSize?: number;
+}
+
+const { photos, columns = 2, thumbnailSize = 800 } = Astro.props;
+---
+
+<div class={`photo-gallery photo-gallery-cols-${columns}`}>
+  {
+    photos.map((photo) => (
+      <div class="photo-gallery-item">
+        <Image
+          src={photo.src}
+          alt={photo.alt || ""}
+          width={thumbnailSize}
+          height={thumbnailSize}
+          quality={85}
+          format="webp"
+          loading="lazy"
+          class="photo-gallery-image"
+        />
+        <div class="photo-gallery-actions">
+          <a
+            href={photo.src}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="photo-action-btn photo-action-preview"
+            aria-label="Preview"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </a>
+          <a
+            href={photo.src}
+            download
+            class="photo-action-btn photo-action-download"
+            aria-label="Download"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+          </a>
+        </div>
+      </div>
+    ))
+  }
+</div>
