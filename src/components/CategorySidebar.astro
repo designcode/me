@@ -2,9 +2,10 @@
 interface Props {
   categories: string[];
   currentCategory?: string;
+  years?: number[];
 }
 
-const { categories, currentCategory } = Astro.props;
+const { categories, currentCategory, years = [] } = Astro.props;
 ---
 
 <div class="category-sidebar">
@@ -16,5 +17,16 @@ const { categories, currentCategory } = Astro.props;
         <a href={`/${category.toLowerCase()}`} class={`category-link ${currentCategory?.toLowerCase() === category.toLowerCase() ? 'active' : ''}`}>{category}</a>
       ))}
     </nav>
+  )}
+
+  {years.length > 0 && (
+    <>
+      <h3 class="sidebar-heading" style="margin-top: 2rem;">Archive</h3>
+      <nav class="category-nav">
+        {years.map(year => (
+          <a href={`/archive/${year}`} class="category-link">{year}</a>
+        ))}
+      </nav>
+    </>
   )}
 </div>

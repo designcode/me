@@ -466,3 +466,105 @@ article hr {
   border: 1px solid var(--color-tertiary);
   border-radius: var(--radius-lg);
 }
+
+/* Archive */
+.archive-container {
+  max-width: 800px;
+}
+
+.archive-years-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.archive-year-card {
+  display: block;
+  padding: 2rem;
+  border: 1px solid var(--color-tertiary);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition: all 0.2s;
+  background: var(--color-bg);
+}
+
+.archive-year-card:hover {
+  border-color: var(--color-secondary);
+  transform: translateY(-2px);
+}
+
+.archive-year-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.archive-year-count {
+  color: var(--color-secondary);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.archive-year-section {
+  margin-bottom: 3rem;
+}
+
+.archive-year {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-tertiary);
+}
+
+.archive-posts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.archive-post-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+
+.archive-post-date {
+  color: var(--color-secondary);
+  font-size: 0.875rem;
+  min-width: 60px;
+  flex-shrink: 0;
+}
+
+.archive-post-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  flex-grow: 1;
+}
+
+.archive-post-link:hover {
+  opacity: 0.7;
+}
+
+.external-indicator {
+  margin-left: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.archive-post-category {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  background: var(--color-bg);
+  color: var(--color-foreground);
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  font-weight: 500;
+  flex-shrink: 0;
+}

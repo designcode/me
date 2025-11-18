@@ -1,0 +1,73 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CategorySidebar from "../../components/CategorySidebar.astro";
+import { processPosts, sortPostsByDate, getUniqueCategories, getUniqueYears, filterPostsByYear } from "../../lib/posts";
+
+export async function getStaticPaths() {
+  const postFiles = import.meta.glob("../posts/*.mdx", { eager: true });
+  const posts = processPosts(postFiles, "../posts/");
+  const years = getUniqueYears(posts, false);
+
+  return years.map((year) => ({
+    params: { year: year.toString() },
+    props: { year, posts },
+  }));
+}
+
+const { year, posts } = Astro.props;
+
+const filteredPosts = sortPostsByDate(filterPostsByYear(posts, year));
+const allCategories = getUniqueCategories(posts);
+const allYears = getUniqueYears(posts);
+---
+
+<BaseLayout title={`Archive ${year} - designcode.me`} description={`Posts from ${year}`}>
+  <CategorySidebar
+    categories={allCategories}
+    years={allYears}
+    slot="sidebar"
+  />
+
+  <div class="archive-container">
+    <h1 class="page-heading">{year}</h1>
+
+    <ul class="archive-posts-list">
+      {filteredPosts.map((post: any) => (
+        <li class="archive-post-item">
+          <time class="archive-post-date">
+            {new Date(post.frontmatter.date).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+            })}
+          </time>
+          {post.frontmatter.externalUrl ? (
+            <a
+              href={post.frontmatter.externalUrl}
+              class="archive-post-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {post.frontmatter.title}
+              <span class="external-indicator">↗</span>
+            </a>
+          ) : (
+            <a href={post.url} class="archive-post-link">
+              {post.frontmatter.title}
+            </a>
+          )}
+          {post.frontmatter.category && (
+            <span class="archive-post-category">
+              {post.frontmatter.category}
+            </span>
+          )}
+        </li>
+      ))}
+    </ul>
+
+    <a
+      href="/archive"
+      class="inline-block mt-8 text-foreground hover:text-primary transition-colors no-underline"
+      >← Back to all years</a
+    >
+  </div>
+</BaseLayout>

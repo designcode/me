@@ -1,0 +1,32 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CategorySidebar from "../components/CategorySidebar.astro";
+import { processPosts, sortPostsByDate, getUniqueCategories, getUniqueYears, groupPostsByYear } from "../lib/posts";
+
+const postFiles = import.meta.glob("./posts/*.mdx", { eager: true });
+const posts = sortPostsByDate(processPosts(postFiles));
+const categories = getUniqueCategories(posts);
+const years = getUniqueYears(posts);
+const postsByYear = groupPostsByYear(posts);
+---
+
+<BaseLayout title="Archive - designcode.me" description="Archive of all posts">
+  <CategorySidebar categories={categories} years={years} slot="sidebar" />
+
+  <div class="archive-container">
+    <h1 class="page-heading">Archive</h1>
+
+    <div class="archive-years-grid">
+      {
+        years.map((year) => (
+          <a href={`/archive/${year}`} class="archive-year-card">
+            <h2 class="archive-year-title">{year}</h2>
+            <p class="archive-year-count">
+              {postsByYear[year].length} {postsByYear[year].length === 1 ? 'post' : 'posts'}
+            </p>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>

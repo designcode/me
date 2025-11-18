@@ -2,29 +2,18 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PostList from "../components/PostList.astro";
 import CategorySidebar from "../components/CategorySidebar.astro";
+import { processPosts, sortPostsByDate, getUniqueCategories, getUniqueYears } from "../lib/posts";
 
 const postFiles = import.meta.glob("./posts/*.mdx", { eager: true });
-const posts = Object.entries(postFiles)
-  .map(([path, post]: [string, any]) => ({
-    url: path.replace("./posts/", "/posts/").replace(".mdx", ""),
-    frontmatter: post.frontmatter,
-  }))
-  .sort(
-    (a, b) =>
-      new Date(b.frontmatter.date).valueOf() -
-      new Date(a.frontmatter.date).valueOf()
-  );
-
-// Get unique categories
-const categories = [
-  ...new Set(posts.map((post) => post.frontmatter.category).filter(Boolean)),
-].sort();
+const posts = sortPostsByDate(processPosts(postFiles));
+const categories = getUniqueCategories(posts);
+const years = getUniqueYears(posts);
 ---
 
 <BaseLayout
   title="designcode.me"
   description="Thoughts and Ramblings of a programmer and long distance runner"
 >
-  <CategorySidebar categories={categories} slot="sidebar" />
+  <CategorySidebar categories={categories} years={years} slot="sidebar" />
   <PostList posts={posts} />
 </BaseLayout>
