@@ -442,3 +442,16 @@ article hr {
   border: 1px solid var(--color-tertiary);
   border-radius: var(--radius-lg);
 }
+
+.instagram-embed {
+  display: flex;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.instagram-embed .instagram-media {
+  width: 100%;
+  border: 1px solid var(--color-tertiary);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg);
+}

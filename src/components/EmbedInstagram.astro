@@ -1,0 +1,17 @@
+---
+interface Props {
+  postId: string;
+}
+
+const { postId } = Astro.props;
+---
+
+<div class="embed-container instagram-embed">
+  <blockquote
+    class="instagram-media"
+    data-instgrm-permalink={`https://www.instagram.com/p/${postId}/`}
+    data-instgrm-version="14"
+  >
+  </blockquote>
+  <script is:inline async src="https://www.instagram.com/embed.js"></script>
+</div>
