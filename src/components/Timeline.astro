@@ -1,9 +1,13 @@
 ---
+import PhotoGallery from "./PhotoGallery.astro";
+import type { Photo } from "./PhotoGallery.astro";
+
 export interface TimelineItem {
   date?: string;
   title: string;
   description?: string;
   link?: string;
+  photos?: Photo[];
 }
 
 interface Props {
@@ -14,32 +18,39 @@ const { items } = Astro.props;
 ---
 
 <div class="timeline">
-  {items.map((item) => (
-    <div class="timeline-item">
-      <div class="timeline-marker"></div>
-      <div class="timeline-content">
-        {item.date && (
-          <time class="timeline-date">{item.date}</time>
-        )}
-        {item.link ? (
-          <a
-            href={item.link}
-            class="timeline-link"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h3 class="timeline-title">
-              {item.title}
-              <span class="external-indicator">↗</span>
-            </h3>
-          </a>
-        ) : (
-          <h3 class="timeline-title">{item.title}</h3>
-        )}
-        {item.description && (
-          <p class="timeline-description">{item.description}</p>
-        )}
+  {
+    items.map((item) => (
+      <div class="timeline-item">
+        <div class="timeline-marker" />
+        <div class="timeline-content">
+          {item.date && <time class="timeline-date">{item.date}</time>}
+          {item.link ? (
+            <a
+              href={item.link}
+              class="timeline-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <h3 class="timeline-title">
+                {item.title}
+                <span class="external-indicator">↗</span>
+              </h3>
+            </a>
+          ) : (
+            <h3 class="timeline-title">{item.title}</h3>
+          )}
+          {item.description && (
+            <p class="timeline-description">{item.description}</p>
+          )}
+          {item.photos && item.photos.length > 0 && (
+            <PhotoGallery
+              photos={item.photos}
+              columns={Math.min(item.photos.length, 4)}
+              thumbnailSize={600}
+            />
+          )}
+        </div>
       </div>
-    </div>
-  ))}
+    ))
+  }
 </div>
