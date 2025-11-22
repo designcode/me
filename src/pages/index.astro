@@ -15,5 +15,5 @@ const years = getUniqueYears(posts);
   description="Thoughts and Ramblings of a programmer and long distance runner"
 >
   <CategorySidebar categories={categories} years={years} slot="sidebar" />
-  <PostList posts={posts} />
+  <PostList posts={posts} showDescription={false} />
 </BaseLayout>

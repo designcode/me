@@ -1,9 +1,10 @@
 ---
 interface Props {
   posts: any[];
+  showDescription?: boolean;
 }
 
-const { posts } = Astro.props;
+const { posts, showDescription = true } = Astro.props;
 ---
 
 <div class="posts-list">
@@ -32,9 +33,11 @@ const { posts } = Astro.props;
             <span class="post-category">{post.frontmatter.category}</span>
           )}
         </div>
-        <p class="post-description">
-          {post.frontmatter.description}
-        </p>
+        {showDescription && post.frontmatter.description && (
+          <p class="post-description">
+            {post.frontmatter.description}
+          </p>
+        )}
       </article>
     );
   })}
