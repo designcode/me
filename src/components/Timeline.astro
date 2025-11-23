@@ -5,7 +5,7 @@ import type { Photo } from "./PhotoGallery.astro";
 export interface TimelineItem {
   date?: string;
   title: string;
-  description?: string;
+  description?: string | string[];
   link?: string;
   photos?: Photo[];
 }
@@ -40,7 +40,13 @@ const { items } = Astro.props;
             <h3 class="timeline-title">{item.title}</h3>
           )}
           {item.description && (
-            <p class="timeline-description">{item.description}</p>
+            <div class="timeline-description">
+              {Array.isArray(item.description) ? (
+                item.description.map((paragraph) => <p>{paragraph}</p>)
+              ) : (
+                <p>{item.description}</p>
+              )}
+            </div>
           )}
           {item.photos && item.photos.length > 0 && (
             <PhotoGallery
