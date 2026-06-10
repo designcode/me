@@ -10,23 +10,38 @@ const { categories, currentCategory, years = [] } = Astro.props;
 
 <div class="category-sidebar">
   <h3 class="sidebar-heading">Categories</h3>
-  {categories.length > 0 && (
-    <nav class="category-nav">
-      <a href="/" class={`category-link ${!currentCategory ? 'active' : ''}`}>All</a>
-      {categories.map(category => (
-        <a href={`/${category.toLowerCase()}`} class={`category-link ${currentCategory?.toLowerCase() === category.toLowerCase() ? 'active' : ''}`}>{category}</a>
-      ))}
-    </nav>
-  )}
-
-  {years.length > 0 && (
-    <>
-      <h3 class="sidebar-heading" style="margin-top: 2rem;">Archive</h3>
+  {
+    categories.length > 0 && (
       <nav class="category-nav">
-        {years.map(year => (
-          <a href={`/archive/${year}`} class="category-link">{year}</a>
+        <a href="/" class={`category-link ${!currentCategory ? "active" : ""}`}>
+          All
+        </a>
+        {categories.map((category) => (
+          <a
+            href={`/${category.toLowerCase()}`}
+            class={`category-link ${currentCategory?.toLowerCase() === category.toLowerCase() ? "active" : ""}`}
+          >
+            {category}
+          </a>
         ))}
       </nav>
-    </>
-  )}
+    )
+  }
+
+  {
+    years.length > 0 && (
+      <>
+        <h3 class="sidebar-heading" style="margin-top: 2rem;">
+          Archive
+        </h3>
+        <nav class="category-nav">
+          {years.map((year) => (
+            <a href={`/archive/${year}`} class="category-link">
+              {year}
+            </a>
+          ))}
+        </nav>
+      </>
+    )
+  }
 </div>

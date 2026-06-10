@@ -1,0 +1,140 @@
+---
+layout: ../../layouts/PostLayout.astro
+title: "Dolomites 2023"
+date: "2023-05-30"
+category: "Hikes"
+---
+
+import EmbedStrava from "../../components/EmbedStrava.astro";
+import Timeline from "../../components/Timeline.astro";
+
+<Timeline
+  plain={true}
+  items={[
+    {
+      title: "10th June",
+      embeds: [
+        {
+          component: EmbedStrava,
+          props: { activityId: "9239903087" },
+          description: [
+            "As of 10th June, cable car is not working so I had to hike from lower station.",
+            "There is a parking that's paid. I didn't know it and I got a ticket.",
+            "Trail is in perfect condition and lake has melted completely. A must do hike in Dolomites in my opinion!",
+          ],
+        },
+      ],
+    },
+    {
+      title: "9th June",
+      embeds: [
+        {
+          component: EmbedStrava,
+          props: { activityId: "9233813582" },
+          description: [
+            "9th June, I did it clockwise. Trail is in perfect condition. I suggest to start early (8 or 9 in morning).",
+            "Trail is long but I wouldn't call it hard. If you're in good physical shape, you should be able to do it.",
+          ],
+        },
+      ],
+    },
+    {
+      title: "8th June",
+      embeds: [
+        {
+          component: EmbedStrava,
+          props: { activityId: "9226960905" },
+          description: [
+            "I hiked it on 8th June. Trail is in perfect condition.",
+            "It's a lot of uphill waking but nothing technical about it. Start early as sun beats pretty hard on the hike up.",
+            "Last 100 meters or so are bit technical because of snow and safety chain buried underneath it so I skipped it.",
+            "Also, the parking is not officially opened yet but they're letting you drive there but not all way to start of trail. So add 2-3 kilometers to the distance depending on where you parked your car.",
+          ],
+        },
+      ],
+    },
+    {
+      title: "7th June",
+      embeds: [
+        {
+          component: EmbedStrava,
+          props: { activityId: "9220979844" },
+          description: [
+            "Via Ferrata Torre Di Toblin is a great addition to the Tre Cime di Lavaredo.",
+            "I did it on 7th June and conditions were perfect. I started around 11 and the via ferrata was not crowded at all.",
+            "The rest of the trail and getting to the parking spot is another story.",
+            "It takes at least 15 mins to get the parking ticket. Also, lot of people on trail who doesn't have hiking manners. The walk in the center and very slowly and don't let you pass. I got angry sighs when I was passing people.",
+          ],
+        },
+      ],
+    },
+    {
+      title: "6th June",
+      embeds: [
+        {
+          component: EmbedStrava,
+          props: { activityId: "9214586364" },
+          description: [
+            "Trail is in great condition. I went up early and there was no one and enjoyed the views in solitude.",
+            "Nothing technical about this route and can easily be done. Just bring good hiking shoes with good grip and helmet.",
+          ],
+        },
+        {
+          component: EmbedStrava,
+          props: { activityId: "9215451291" },
+          description: [
+            "I don't know why it's rated moderate. I did it on 6th June and it took me more than 3 hours to go up and come back down.",
+            "Route is full of scree and ice and it was very difficult. I didn't have my via ferrata equipment with me and it felt really really uncomfortable at several place.",
+            "Don't attempt until snow and ice has cleared fully or take your via ferrata stuff with you.",
+          ],
+        },
+      ],
+    },
+    {
+      title: "5th June",
+      description:
+        "I did it counter clockwise on 5th June. Still some snow on the way up (from 4th kilometer). I walked on scree and it's not technical. Sturdy hiking shoes are a must though.",
+      embeds: [{ component: EmbedStrava, props: { activityId: "9208611572" } }],
+    },
+    {
+      title: "4th June",
+      description:
+        "4th June - Lake is not frozen anymore but the route is still slippery because of rains. Please put on hiking shoes and don't do it in sneakers.",
+      embeds: [{ component: EmbedStrava, props: { activityId: "9201884239" } }],
+    },
+    {
+      title: "3rd June",
+      description: [
+        "Really nice hike but with a lot of people. Please put on hiking shoes and don't do it in sneakers.",
+        "Also, if you click on direction, it builds the route to a place where you can't drive. It's best to drive to Col Raiser gondola parking and take Gondola from there and then start hike.",
+        "PS: Take a detour to the peak of Sceda too.",
+      ],
+      embeds: [{ component: EmbedStrava, props: { activityId: "9195434552" } }],
+    },
+    {
+      title: "2nd June",
+      description:
+        "Tried to do the via ferrata on 2nd June. Quite some snow so I had to abort it half way and return back the same way I came.",
+      embeds: [{ component: EmbedStrava, props: { activityId: "9188800317" } }],
+    },
+    {
+      title: "1st June",
+      description:
+        "I only did half of the trail today (1st June) as there is a lot of snow after the pass and it hides the trail. Also better to have crampons.",
+      embeds: [{ component: EmbedStrava, props: { activityId: "9183441943" } }],
+    },
+    {
+      title: "31st May",
+      description:
+        "I think a must do trail in Dolomites. Very easy and rewarding views. I did clockwise and I'd recommend that.",
+      embeds: [{ component: EmbedStrava, props: { activityId: "9176565647" } }],
+    },
+    {
+      title: "30th May",
+      description:
+        "Hiked the trail clockwise on 30th May. The last 4-5 kilometers are quite tough as it's a lot of snow. The trail is not fully visible so it's better to hike with trekking poles. I got my leg stuck in snow 3-4 times.",
+      embeds: [{ component: EmbedStrava, props: { activityId: "9169764774" } }],
+    },
+
+]}
+/>
