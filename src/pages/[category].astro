@@ -11,7 +11,7 @@ import {
 } from "../lib/posts";
 
 export async function getStaticPaths() {
-  const postFiles = import.meta.glob("./posts/*.mdx", { eager: true });
+  const postFiles = import.meta.glob("../posts/*.mdx", { eager: true });
   const posts = processPosts(postFiles);
   const categories = getUniqueCategories(posts, false);
 

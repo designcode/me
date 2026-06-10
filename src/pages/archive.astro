@@ -9,7 +9,7 @@ import {
   groupPostsByYear,
 } from "../lib/posts";
 
-const postFiles = import.meta.glob("./posts/*.mdx", { eager: true });
+const postFiles = import.meta.glob("../posts/*.mdx", { eager: true });
 const posts = sortPostsByDate(processPosts(postFiles));
 const categories = getUniqueCategories(posts);
 const years = getUniqueYears(posts);

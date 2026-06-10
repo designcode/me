@@ -1,0 +1,20 @@
+---
+import PostLayout from "../../layouts/PostLayout.astro";
+
+export async function getStaticPaths() {
+  const postFiles = import.meta.glob("../../posts/*.mdx", { eager: true });
+
+  return Object.entries(postFiles).map(([path, post]: [string, any]) => {
+    const filename = path.split("/").pop()!.replace(".mdx", "");
+    const slug = post.frontmatter.slug ?? filename;
+    return { params: { slug }, props: { post } };
+  });
+}
+
+const { post } = Astro.props;
+const { Content } = post;
+---
+
+<PostLayout frontmatter={post.frontmatter}>
+  <Content />
+</PostLayout>

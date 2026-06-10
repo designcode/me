@@ -1,16 +1,20 @@
 import type { Post } from "../types/post";
 
 /**
- * Process raw post files into Post objects
+ * Process raw post files into Post objects.
+ *
+ * The URL slug comes from the post's `slug` frontmatter property, falling back
+ * to the filename (sans extension) when none is set.
  */
-export function processPosts(
-  postFiles: Record<string, any>,
-  pathPrefix: string = "./posts/",
-): Post[] {
-  return Object.entries(postFiles).map(([path, post]: [string, any]) => ({
-    url: path.replace(pathPrefix, "/posts/").replace(".mdx", ""),
-    frontmatter: post.frontmatter,
-  }));
+export function processPosts(postFiles: Record<string, any>): Post[] {
+  return Object.entries(postFiles).map(([path, post]: [string, any]) => {
+    const filename = path.split("/").pop()!.replace(".mdx", "");
+    const slug = post.frontmatter.slug ?? filename;
+    return {
+      url: `/posts/${slug}`,
+      frontmatter: post.frontmatter,
+    };
+  });
 }
 
 /**
