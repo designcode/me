@@ -1,5 +1,5 @@
 ---
-layout: ../../layouts/PostLayout.astro
+slug: "angular-deferrable-views"
 title: "Angular's Deferrable Views"
 date: "2024-08-15"
 category: "Code"
@@ -21,7 +21,7 @@ To understand the how the deferrable work, we'll use some examples as we go. Con
   template: `
     <div class="container">
       @if (showComponent) {
-      <MyComponent />
+        <MyComponent />
       }
       <button (click)="showComponent = true">Show Component</button>
     </div>
@@ -46,7 +46,7 @@ Let's replace the `@if` block with `@defer`
   template: `
     <div class="container">
       @defer (when showComponent) {
-      <MyComponent />
+        <MyComponent />
       }
       <button (click)="showComponent = true">Show Component</button>
     </div>
@@ -75,13 +75,13 @@ Let's take a look at the other building blocks of deferrable that can be combine
   template: `
     <div class="container">
       @defer (when showComponent) {
-      <MyComponent />
+        <MyComponent />
       } @placeholder {
-      <button (click)="showComponent = true">Show Component</button>
+        <button (click)="showComponent = true">Show Component</button>
       } @loading {
-      <p>Loading MyComponent</p>
+        <p>Loading MyComponent</p>
       } @error {
-      <p>MyComponent Failed to load</p>
+        <p>MyComponent Failed to load</p>
       }
     </div>
   `,
@@ -111,7 +111,7 @@ This is the most basic variation of `on` condition. It makes `MyComponent` lazy 
   template: `
     <div class="container">
       @defer (on immediate) {
-      <MyComponent />
+        <MyComponent />
       }
     </div>
   `,
@@ -131,7 +131,7 @@ Quite a powerful variation of `on` condition IMHO. It uses the [`requestIdleCall
   template: `
     <div class="container">
       @defer (on idle) {
-      <MyComponent />
+        <MyComponent />
       }
     </div>
   `,
@@ -202,7 +202,7 @@ The `on interaction` condition allows us to defer the loading and rendering of c
   template: `
     <div class="container">
       @defer (on interaction(trigger)) {
-      <MyComponent />
+        <MyComponent />
       }
 
       <button #trigger>Show Component</button>
@@ -222,9 +222,9 @@ Alternatively, you can also use `placeholder` as the interaction trigger for def
   template: `
     <div class="container">
       @defer (on interaction) {
-      <MyComponent />
+        <MyComponent />
       } @placeholder {
-      <button>Show Component</button>
+        <button>Show Component</button>
       }
     </div>
   `,
@@ -244,7 +244,7 @@ The `on hover` condition allows us to defer the rendering of component trigger e
   template: `
     <div class="container">
       @defer (on hover(trigger)) {
-      <MyComponent />
+        <MyComponent />
       }
 
       <button #trigger>Show Component</button>
@@ -264,9 +264,9 @@ Alternatively, you can also use `placeholder` as the trigger for deferred conten
   template: `
     <div class="container">
       @defer (on hover) {
-      <MyComponent />
+        <MyComponent />
       } @placeholder {
-      <button>Show Component</button>
+        <button>Show Component</button>
       }
     </div>
   `,
@@ -286,9 +286,9 @@ The `on timer` condition lets you delay the rendering of content based on time. 
   template: `
     <div class="container">
       @defer (on timer(5000ms)) {
-      <p>I will be rendered after 5 seconds!</p>
+        <p>I will be rendered after 5 seconds!</p>
       } @placeholder {
-      <p>I am a placeholder!</p>
+        <p>I am a placeholder!</p>
       }
     </div>
   `,
@@ -308,7 +308,7 @@ Angular deferrable provides prefetching out of the box. What it means that you c
   template: `
     <div class="container">
       @defer (when showComponent; prefetch when prefetchComponent) {
-      <MyComponent />
+        <MyComponent />
       }
 
       <button (click)="prefetchComponent = true">Prefetch Component</button>
@@ -382,9 +382,9 @@ In following example, we want to continue showing the placeholder for 500 millis
   template: `
     <div class="container">
       @defer (on interaction) {
-      <MyComponent />
+        <MyComponent />
       } @placeholder (minimum 500) {
-      <button>Show Component</button>
+        <button>Show Component</button>
       }
     </div>
   `,
@@ -402,8 +402,10 @@ Another example below allows us to show the `loading` block after 1 second and c
   template: `
     <div class="container">
       @defer (on interaction(trigger)) {
-      <MyComponent />
-      } @loading (after 1000; minimum 5000) { Loading.... }
+        <MyComponent />
+      } @loading (after 1000; minimum 5000) {
+        Loading....
+      }
 
       <button #trigger>Show Component</button>
     </div>

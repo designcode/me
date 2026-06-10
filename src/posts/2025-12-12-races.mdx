@@ -1,0 +1,33 @@
+---
+slug: "races-2025"
+title: "Races of 2025"
+date: "2025-12-12"
+category: "Runs"
+---
+
+import EmbedStrava from "../components/EmbedStrava.astro";
+import Timeline from "../components/Timeline.astro";
+
+<Timeline
+  plain={true}
+  items={[
+    {
+      title: "16th February",
+      embeds: [
+        {
+          component: EmbedStrava,
+          props: { activityId: "13639925735" },
+        },
+      ],
+    },
+    {
+      title: "16th November",
+      embeds: [
+        {
+          component: EmbedStrava,
+          props: { activityId: "16476051157" },
+        },
+      ],
+    },
+  ]}
+/>

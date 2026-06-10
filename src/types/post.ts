@@ -1,6 +1,8 @@
 export interface PostFrontmatter {
   title: string;
   date: string;
+  /** Optional URL slug override; defaults to the filename when omitted */
+  slug?: string;
   category?: string;
   description?: string;
   externalUrl?: string;

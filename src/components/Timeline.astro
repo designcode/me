@@ -2,19 +2,31 @@
 import PhotoGallery from "./PhotoGallery.astro";
 import type { Photo } from "./PhotoGallery.astro";
 
+export interface TimelineEmbed {
+  /** An Astro/framework component to render, e.g. EmbedStrava */
+  component: any;
+  /** Props passed to the component */
+  props?: Record<string, any>;
+  description?: string | string[];
+}
+
 export interface TimelineItem {
   date?: string;
   title: string;
   description?: string | string[];
   link?: string;
   photos?: Photo[];
+  /** Arbitrary components (maps, embeds, etc.) rendered after the description */
+  embeds?: TimelineEmbed[];
 }
 
 interface Props {
   items: TimelineItem[];
+  /** Render content without the card border, background, and padding */
+  plain?: boolean;
 }
 
-const { items } = Astro.props;
+const { items, plain = false } = Astro.props;
 ---
 
 <div class="timeline">
@@ -22,7 +34,9 @@ const { items } = Astro.props;
     items.map((item) => (
       <div class="timeline-item">
         <div class="timeline-marker" />
-        <div class="timeline-content">
+        <div
+          class={`timeline-content${plain ? " timeline-content--plain" : ""}`}
+        >
           {item.date && <time class="timeline-date">{item.date}</time>}
           {item.link ? (
             <a
@@ -54,6 +68,29 @@ const { items } = Astro.props;
               columns={Math.min(item.photos.length, 4)}
               thumbnailSize={600}
             />
+          )}
+          {item.embeds && item.embeds.length > 0 && (
+            <div class="timeline-embeds">
+              {item.embeds.map((embed) => {
+                const Embed = embed.component;
+                return (
+                  <>
+                    <Embed {...(embed.props ?? {})} />
+                    {embed.description && (
+                      <div class="timeline-description">
+                        {Array.isArray(embed.description) ? (
+                          embed.description.map((paragraph) => (
+                            <p>{paragraph}</p>
+                          ))
+                        ) : (
+                          <p>{embed.description}</p>
+                        )}
+                      </div>
+                    )}
+                  </>
+                );
+              })}
+            </div>
           )}
         </div>
       </div>

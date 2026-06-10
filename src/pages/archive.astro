@@ -1,9 +1,15 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CategorySidebar from "../components/CategorySidebar.astro";
-import { processPosts, sortPostsByDate, getUniqueCategories, getUniqueYears, groupPostsByYear } from "../lib/posts";
+import {
+  processPosts,
+  sortPostsByDate,
+  getUniqueCategories,
+  getUniqueYears,
+  groupPostsByYear,
+} from "../lib/posts";
 
-const postFiles = import.meta.glob("./posts/*.mdx", { eager: true });
+const postFiles = import.meta.glob("../posts/*.mdx", { eager: true });
 const posts = sortPostsByDate(processPosts(postFiles));
 const categories = getUniqueCategories(posts);
 const years = getUniqueYears(posts);
@@ -22,7 +28,8 @@ const postsByYear = groupPostsByYear(posts);
           <a href={`/archive/${year}`} class="archive-year-card">
             <h2 class="archive-year-title">{year}</h2>
             <p class="archive-year-count">
-              {postsByYear[year].length} {postsByYear[year].length === 1 ? 'post' : 'posts'}
+              {postsByYear[year].length}{" "}
+              {postsByYear[year].length === 1 ? "post" : "posts"}
             </p>
           </a>
         ))

@@ -1,0 +1,27 @@
+---
+slug: "dolomites-2024"
+title: "Dolomites 2024"
+date: "2024-08-30"
+category: "Hikes"
+---
+
+import EmbedStrava from "../components/EmbedStrava.astro";
+import Timeline from "../components/Timeline.astro";
+
+<Timeline
+  plain={true}
+  items={[
+    {
+      title: "30th August",
+      embeds: [
+        {
+          component: EmbedStrava,
+          props: { activityId: "12281996597" },
+          description: [
+            "Great trail, can be a bit crowded. It's much longer than listed here and does require good level of fitness!",
+          ],
+        },
+      ],
+    },
+  ]}
+/>

@@ -2,10 +2,16 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PostList from "../components/PostList.astro";
 import CategorySidebar from "../components/CategorySidebar.astro";
-import { processPosts, sortPostsByDate, getUniqueCategories, getUniqueYears, filterPostsByCategory } from "../lib/posts";
+import {
+  processPosts,
+  sortPostsByDate,
+  getUniqueCategories,
+  getUniqueYears,
+  filterPostsByCategory,
+} from "../lib/posts";
 
 export async function getStaticPaths() {
-  const postFiles = import.meta.glob("./posts/*.mdx", { eager: true });
+  const postFiles = import.meta.glob("../posts/*.mdx", { eager: true });
   const posts = processPosts(postFiles);
   const categories = getUniqueCategories(posts, false);
 

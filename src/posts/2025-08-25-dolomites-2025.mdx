@@ -1,0 +1,40 @@
+---
+slug: "dolomites-2025"
+title: "Dolomites 2025"
+date: "2025-08-25"
+category: "Hikes"
+---
+
+import EmbedStrava from "../components/EmbedStrava.astro";
+import Timeline from "../components/Timeline.astro";
+
+<Timeline
+  plain={true}
+  items={[
+    {
+      title: "25th August",
+      embeds: [
+        {
+          component: EmbedStrava,
+          props: { activityId: "15581152186" },
+          description: [
+            "Great trail with 360 views on mountains of Dolomites!",
+          ],
+        },
+      ],
+    },
+    {
+      title: "26th August",
+      embeds: [
+        {
+          component: EmbedStrava,
+          props: { activityId: "15597382537" },
+          description: [
+            "Great via Ferrata, not technical but very exposed and very long. Going down via normals is also very difficult and long.",
+            "Better spend the night in Rifugio Coldai or Rifugio Torrani!",
+          ],
+        },
+      ],
+    },
+  ]}
+/>

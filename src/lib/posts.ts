@@ -1,19 +1,29 @@
 import type { Post } from "../types/post";
 
 /**
- * Process raw post files into Post objects
+ * Process raw post files into Post objects.
+ *
+ * The URL slug comes from the post's `slug` frontmatter property, falling back
+ * to the filename (sans extension) when none is set.
  */
-export function processPosts(postFiles: Record<string, any>, pathPrefix: string = "./posts/"): Post[] {
-  return Object.entries(postFiles).map(([path, post]: [string, any]) => ({
-    url: path.replace(pathPrefix, "/posts/").replace(".mdx", ""),
-    frontmatter: post.frontmatter,
-  }));
+export function processPosts(postFiles: Record<string, any>): Post[] {
+  return Object.entries(postFiles).map(([path, post]: [string, any]) => {
+    const filename = path.split("/").pop()!.replace(".mdx", "");
+    const slug = post.frontmatter.slug ?? filename;
+    return {
+      url: `/posts/${slug}`,
+      frontmatter: post.frontmatter,
+    };
+  });
 }
 
 /**
  * Sort posts by date in descending order (newest first)
  */
-export function sortPostsByDate(posts: Post[], descending: boolean = true): Post[] {
+export function sortPostsByDate(
+  posts: Post[],
+  descending: boolean = true,
+): Post[] {
   return [...posts].sort((a, b) => {
     const dateA = new Date(a.frontmatter.date).valueOf();
     const dateB = new Date(b.frontmatter.date).valueOf();
@@ -24,9 +34,16 @@ export function sortPostsByDate(posts: Post[], descending: boolean = true): Post
 /**
  * Get unique categories from posts
  */
-export function getUniqueCategories(posts: Post[], sort: boolean = true): string[] {
+export function getUniqueCategories(
+  posts: Post[],
+  sort: boolean = true,
+): string[] {
   const categories = [
-    ...new Set(posts.map((post) => post.frontmatter.category).filter(Boolean) as string[]),
+    ...new Set(
+      posts
+        .map((post) => post.frontmatter.category)
+        .filter(Boolean) as string[],
+    ),
   ];
   return sort ? categories.sort() : categories;
 }
@@ -36,7 +53,9 @@ export function getUniqueCategories(posts: Post[], sort: boolean = true): string
  */
 export function getUniqueYears(posts: Post[], sort: boolean = true): number[] {
   const years = [
-    ...new Set(posts.map((post) => new Date(post.frontmatter.date).getFullYear())),
+    ...new Set(
+      posts.map((post) => new Date(post.frontmatter.date).getFullYear()),
+    ),
   ];
   return sort ? years.sort((a, b) => b - a) : years;
 }
@@ -60,16 +79,20 @@ export function groupPostsByYear(posts: Post[]): Record<number, Post[]> {
  */
 export function filterPostsByCategory(posts: Post[], category: string): Post[] {
   return posts.filter(
-    (post) => post.frontmatter.category?.toLowerCase() === category.toLowerCase()
+    (post) =>
+      post.frontmatter.category?.toLowerCase() === category.toLowerCase(),
   );
 }
 
 /**
  * Filter posts by year
  */
-export function filterPostsByYear(posts: Post[], year: number | string): Post[] {
+export function filterPostsByYear(
+  posts: Post[],
+  year: number | string,
+): Post[] {
   const yearNumber = typeof year === "string" ? parseInt(year) : year;
   return posts.filter(
-    (post) => new Date(post.frontmatter.date).getFullYear() === yearNumber
+    (post) => new Date(post.frontmatter.date).getFullYear() === yearNumber,
   );
 }
