@@ -7,6 +7,7 @@ category: "Travels"
 
 Trip to Isle of Skye, Scotland from October 2nd to October 7th 2025.
 
+import EmbedStrava from "../components/EmbedStrava.astro";
 import Timeline from "../components/Timeline.astro";
 
 <Timeline
@@ -32,6 +33,12 @@ import Timeline from "../components/Timeline.astro";
       title: "Hiking to Old Man of Storr",
       description:
         "First hike, had breakfast at Birch Cafe and then drove to starting point of the hike. Hiked to the Old Man of Storr. It started to rain crazy towards the end of the hike. Returned back to Portree, walked around the town and had dinner at The Isles Inn.",
+      embeds: [
+        {
+          component: EmbedStrava,
+          props: { activityId: "16021126363" },
+        },
+      ],
       photos: [
         {
           src: "/isle-of-skye/3.jpg",
@@ -99,6 +106,12 @@ import Timeline from "../components/Timeline.astro";
           alt: "The Hungry Gull",
         },
       ],
+      embeds: [
+        {
+          component: EmbedStrava,
+          props: { activityId: "16034674465" },
+        },
+      ],
     },
     {
       date: "Day 4 - October 5th",
@@ -147,6 +160,12 @@ import Timeline from "../components/Timeline.astro";
           alt: "Fairy Pools",
         },
       ],
+      embeds: [
+        {
+          component: EmbedStrava,
+          props: { activityId: "16053668441" },
+        },
+      ],
     },
     {
       date: "Day 6 - October 7th",
@@ -168,5 +187,6 @@ import Timeline from "../components/Timeline.astro";
         },
       ],
     },
-  ]}
+
+]}
 />
