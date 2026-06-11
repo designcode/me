@@ -5,12 +5,125 @@ date: "2024-08-30"
 category: "Hikes"
 ---
 
+import EmbedAllTrails from "../components/EmbedAllTrails.astro";
 import EmbedStrava from "../components/EmbedStrava.astro";
 import Timeline from "../components/Timeline.astro";
 
 <Timeline
   plain={true}
   items={[
+    {
+      title: "7th September",
+      embeds: [
+        {
+          component: EmbedStrava,
+          props: { activityId: "12350589272" },
+          description: [
+            "Great Via Ferrata, not very technical but requires a lot of stamina and endurance.",
+            "Unfortunately, it was super crowded though!",
+          ],
+        },
+      ],
+    },
+    {
+      title: "6th September",
+      embeds: [
+        {
+          component: EmbedStrava,
+          props: { activityId: "12342523828" },
+          description: [
+            "I did it counter clockwise on 6th September. It was very foggy so didn’t see much. Lower parts of via Ferrata were also quite slippery because  of the rain the day before.",
+            "Also, Garmin died on the way down, here is the full track:",
+          ],
+        },
+        {
+          component: EmbedAllTrails,
+          props: {
+            url: "https://www.alltrails.com/explore/recording/afternoon-hike-at-via-ferrata-sas-rigais-col-raiser-sas-rigais-d9fbed9",
+            title:
+              "Afternoon hike at via Ferrata Sas Rigais Col Raiser Sas Rigais",
+          },
+        },
+      ],
+    },
+    {
+      title: "5th September",
+      embeds: [
+        {
+          component: EmbedStrava,
+          props: { activityId: "12331547335" },
+          description: [
+            "Nice hike, I went up early and it was quite interesting to see the tunnels from WW1.",
+          ],
+        },
+      ],
+    },
+    {
+      title: "4th September",
+      embeds: [
+        {
+          component: EmbedStrava,
+          props: { activityId: "12325398434" },
+          description: [
+            "Truly mesmerizing lunar like landscape. I'd classify it as a moderate hike. Can be very crowded though!",
+          ],
+        },
+      ],
+    },
+    {
+      title: "3rd September",
+      embeds: [
+        {
+          component: EmbedStrava,
+          props: { activityId: "12315208273" },
+          description: [
+            "Via Ferrata Melone. An excellent adventure that starts from parking of Rifugio Fonda Savio.",
+            "Then it's a 3 kilometers hike to Rifugio. The elevation gain is 500 meters so it takes an hour to two hours depending on your speed.",
+            "From Rifugio, follow signs for Via Ferrata Merlone.",
+            "Please note that you have to come back the same way as you go up on the peak.",
+          ],
+        },
+      ],
+    },
+    {
+      title: "2nd September",
+      embeds: [
+        {
+          component: EmbedStrava,
+          props: { activityId: "12305393905" },
+          description: [
+            "What a great trail. I started early and I was up there 9:30. Trail and peak was empty and I got to enjoy and hour of quite time.",
+            "Please don't post it on instagram or it'll become super popular too.",
+          ],
+        },
+      ],
+    },
+    {
+      title: "1st September",
+      embeds: [
+        {
+          component: EmbedStrava,
+          props: { activityId: "12299205297" },
+          description: [
+            "Great Via Ferrata. A few things to note though:",
+            "Via Ferrata is not very technical but there are places where there is no safety rails. I am not a climber but I didn't find that very difficult.",
+            "More difficult part is going down as it's long.",
+          ],
+        },
+      ],
+    },
+    {
+      title: "31st August",
+      embeds: [
+        {
+          component: EmbedStrava,
+          props: { activityId: "12289921131" },
+          description: [
+            "Great Via Ferrata. Moderately crowded. It's Grade C thus quite exposed at places and quite long so only attempt it if you're sure!",
+          ],
+        },
+      ],
+    },
     {
       title: "30th August",
       embeds: [
