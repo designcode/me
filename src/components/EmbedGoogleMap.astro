@@ -1,0 +1,18 @@
+---
+interface Props {
+  /** Full Google Maps embed URL (https://www.google.com/maps/embed?pb=...) */
+  src: string;
+  title?: string;
+}
+
+const { src, title = "Map" } = Astro.props;
+---
+
+<div class="embed-container googlemap-embed">
+  <iframe
+    src={src}
+    title={title}
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    allowfullscreen></iframe>
+</div>

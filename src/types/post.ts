@@ -8,6 +8,8 @@ export interface PostFrontmatter {
   externalUrl?: string;
   embedType?: "youtube" | "strava" | "instagram" | "alltrails";
   embedId?: string;
+  /** Where the post was first published (e.g. on abbyontravel.com) before moving here */
+  originalUrl?: string;
 }
 
 export interface Post {

@@ -106,6 +106,56 @@ Blank lines _between_ separate JSX elements are fine — just keep them out of `
 expressions. If a `.mdx` file looks "stuck" and won't reformat, look for a stray blank line
 (or a real syntax error) inside an embedded expression.
 
+## Migrating posts from abbyontravel.com
+
+Posts from the old WordPress.com blog are moved over one at a time with
+`scripts/migrate-abbyontravel.py` (Python 3.9+, standard library only, no WordPress login
+needed):
+
+```bash
+# dry run: print the MDX, download nothing, touch nothing
+python3 scripts/migrate-abbyontravel.py https://abbyontravel.com/2019/10/29/1-day-hike-on-matterhorn-trail/ --dry-run
+
+# for real: short slug + category of your choice
+python3 scripts/migrate-abbyontravel.py https://abbyontravel.com/2019/10/29/1-day-hike-on-matterhorn-trail/ \
+  --slug matterhorn-trail --category Guides
+```
+
+The script accepts a full URL, the WordPress slug, or the numeric post ID (travel-diary
+_pages_ such as `/travels/a-hike-around-lake-como/` work too). For each post it:
+
+1. fetches the content through the public WordPress.com REST API;
+2. downloads every image into `public/<slug>/1.jpg, 2.jpg, ...` (WordPress resizes them to
+   `--max-width` px on the long side, default 2048, and strips EXIF; use `--max-width 0`
+   for untouched originals);
+3. converts the WordPress blocks to MDX: galleries become `<PhotoGallery>`, single images
+   become `<figure>` with a caption, YouTube embeds become `<EmbedYoutube>`, Google Maps
+   embeds become `<EmbedGoogleMap>`;
+4. writes `src/posts/<date>-<slug>.mdx` with `slug`, `title`, `date`, `category`,
+   `description` and `originalUrl` frontmatter;
+5. adds a redirect from the old path (e.g. `/2019/10/29/1-day-hike-on-matterhorn-trail`) to
+   `/posts/<slug>` in `astro.config.mjs` and runs Prettier on the touched files.
+
+Review the generated MDX, run `npm run build`, and commit the post, its images and the
+config change together. If the post already exists here (same title, or an
+`externalUrl` stub pointing at abbyontravel.com) the script warns; re-run with
+`--slug <existing-slug> --force` to replace the stub.
+
+### Redirecting abbyontravel.com to designcode.me
+
+Two layers make old links land on the right post:
+
+- **Per post (this repo):** the `redirects` map in `astro.config.mjs` turns the old WordPress
+  path into `/posts/<slug>`. Astro emits a small HTML page with an instant
+  `<meta http-equiv="refresh">` for each entry (GitHub Pages cannot send real 301s), so
+  `designcode.me/2019/10/29/1-day-hike-on-matterhorn-trail/` already works as soon as the
+  post is deployed.
+- **Domain level (once the posts you want are migrated):** send every `abbyontravel.com`
+  URL to the same path on `designcode.me` with a true 301. The free way is to move the
+  domain's DNS to Cloudflare, proxy the apex record, and add one Single Redirect rule
+  (Request URL `http*://abbyontravel.com/*` → Target `https://designcode.me/${2}`, 301,
+  preserve query string). The Astro redirects above then finish the job per post.
+
 ## Customization
 
 ### Update Site Title
