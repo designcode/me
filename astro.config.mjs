@@ -10,6 +10,7 @@ export default defineConfig({
   site: "https://designcode.github.io",
   integrations: [mdx()],
   redirects: {
+    "/2019/10/29/1-day-hike-on-matterhorn-trail": "/posts/matterhorn",
     "/2019/10/05/mount-etna-easy-intermediate-and-advance-hikes": "/posts/etna",
     "/2019/09/21/rocciamelone-from-susa-to-peak": "/posts/rocciamelone",
     "/2019/09/15/kebnekaise-climbing-the-highest-peak-of-sweden":
