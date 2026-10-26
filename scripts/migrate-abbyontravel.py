@@ -18,7 +18,7 @@ What it does:
   3. Converts the WordPress block HTML into MDX using this repo's components:
      PhotoGallery for galleries, EmbedYoutube for YouTube, EmbedGoogleMap for Google Maps.
   4. Writes src/posts/<date>-<slug>.mdx with frontmatter (slug, title, date, category).
-  5. Adds a redirect from the old abbyontravel.com path to /posts/<slug> in astro.config.mjs
+  5. Adds a redirect from the old abbyontravel.com path to /<slug> in astro.config.mjs
      and runs prettier on the touched files.
 
 Options:
@@ -660,7 +660,7 @@ def main():
     mdx = "\n".join(fm) + "\n\n" + (imports + "\n" if imports else "") + body
 
     filename = f"{date}-{slug}.mdx"
-    redirect_line = f'    "{old_path(post)}": "/posts/{slug}",'
+    redirect_line = f'    "{old_path(post)}": "/{slug}",'
 
     for existing in existing_matches(title, original_url):
         print(f"warning: {existing} looks like the same post (same title or URL). "
@@ -704,8 +704,8 @@ def main():
 
     touched = [dest]
     if not args.no_redirect:
-        if add_redirect(old_path(post), f"/posts/{slug}"):
-            print(f"added redirect {old_path(post)} -> /posts/{slug} in astro.config.mjs")
+        if add_redirect(old_path(post), f"/{slug}"):
+            print(f"added redirect {old_path(post)} -> /{slug} in astro.config.mjs")
             touched.append(ASTRO_CONFIG)
         else:
             print("redirect already present in astro.config.mjs")

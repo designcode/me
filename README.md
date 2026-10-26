@@ -71,18 +71,23 @@ npm run format:check
 
 ## Adding New Posts
 
-Create a new `.mdx` file in `src/pages/posts/`:
+Create a new `.mdx` file in `src/posts/`:
 
 ```mdx
 ---
-layout: ../../layouts/PostLayout.astro
 title: "Your Post Title"
 date: "2024-01-15"
-description: "A brief description of your post"
+category: "Thoughts"
+slug: "your-post" # optional, defaults to the filename
 ---
 
 Your post content here...
 ```
+
+The post is served at `/<slug>` (for example `designcode.me/your-post`). Category pages
+live at the same level (`/thoughts`, `/guides`, ...), so a slug must not equal a category
+name; the build fails with a clear message if it does. Old `/posts/<slug>` links redirect to
+the new address via the `"/posts/[slug]"` entry in `astro.config.mjs`.
 
 ### ⚠️ Gotcha: blank lines inside MDX expressions
 
@@ -134,7 +139,7 @@ _pages_ such as `/travels/a-hike-around-lake-como/` work too). For each post it:
 4. writes `src/posts/<date>-<slug>.mdx` with `slug`, `title`, `date` and `category`
    frontmatter;
 5. adds a redirect from the old path (e.g. `/2019/10/29/1-day-hike-on-matterhorn-trail`) to
-   `/posts/<slug>` in `astro.config.mjs` and runs Prettier on the touched files.
+   `/<slug>` in `astro.config.mjs` and runs Prettier on the touched files.
 
 Review the generated MDX, run `npm run build`, and commit the post, its images and the
 config change together. If the post already exists here (same title, or an
@@ -146,7 +151,7 @@ config change together. If the post already exists here (same title, or an
 Two layers make old links land on the right post:
 
 - **Per post (this repo):** the `redirects` map in `astro.config.mjs` turns the old WordPress
-  path into `/posts/<slug>`. Astro emits a small HTML page with an instant
+  path into `/<slug>`. Astro emits a small HTML page with an instant
   `<meta http-equiv="refresh">` for each entry (GitHub Pages cannot send real 301s), so
   `designcode.me/2019/10/29/1-day-hike-on-matterhorn-trail/` already works as soon as the
   post is deployed.
@@ -187,11 +192,13 @@ Add a `<link>` tag in the `<head>` section of `BaseLayout.astro` and update the 
 │   ├── layouts/
 │   │   ├── BaseLayout.astro    # Main layout with styling
 │   │   └── PostLayout.astro    # Blog post layout
-│   └── pages/
-│       ├── index.astro         # Homepage (blog list)
-│       └── posts/
-│           ├── first-post.mdx
-│           └── second-post.mdx
+│   ├── pages/
+│   │   ├── index.astro         # Homepage (blog list)
+│   │   ├── [slug].astro        # A post, or a category listing
+│   │   └── archive/            # Posts by year
+│   └── posts/
+│       ├── first-post.mdx
+│       └── second-post.mdx
 ├── astro.config.mjs        # Astro configuration
 └── package.json
 ```
