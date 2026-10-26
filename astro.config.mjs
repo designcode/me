@@ -10,6 +10,8 @@ export default defineConfig({
   site: "https://designcode.github.io",
   integrations: [mdx()],
   redirects: {
+    "/2019/09/21/the-ultimate-guide-of-driving-around-iceland-in-8-days":
+      "/posts/the-ultimate-guide-of-driving-around-iceland-in-8-days",
     "/2019/10/24/5-days-and-nights-and-tromso":
       "/posts/5-days-and-nights-and-tromso",
     "/2019/10/16/5-days-in-madeira": "/posts/5-days-in-madeira",
