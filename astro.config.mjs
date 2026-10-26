@@ -10,6 +10,8 @@ export default defineConfig({
   site: "https://designcode.github.io",
   integrations: [mdx()],
   redirects: {
+    "/2019/09/15/kebnekaise-climbing-the-highest-peak-of-sweden":
+      "/posts/kebnekaise",
     "/2017/04/15/mount-teide-a-guide-to-reach-the-peak": "/posts/teide",
     "/2019/09/14/triglav-a-guide-to-reach-top-of-slovenia": "/posts/triglav",
     "/posts/2014-10-14-euro-trip-part-1": "/posts/euro-trip-part-1",
