@@ -17,8 +17,7 @@ What it does:
      --max-width pixels on the long side, EXIF stripped).
   3. Converts the WordPress block HTML into MDX using this repo's components:
      PhotoGallery for galleries, EmbedYoutube for YouTube, EmbedGoogleMap for Google Maps.
-  4. Writes src/posts/<date>-<slug>.mdx with frontmatter (slug, title, date, category,
-     description).
+  4. Writes src/posts/<date>-<slug>.mdx with frontmatter (slug, title, date, category).
   5. Adds a redirect from the old abbyontravel.com path to /posts/<slug> in astro.config.mjs
      and runs prettier on the touched files.
 
@@ -590,16 +589,6 @@ def pick_category(post, override):
     return "Thoughts"
 
 
-def description_from(post):
-    text = norm_ws(strip_tags(post.get("excerpt") or "")).strip()
-    text = re.sub(r"\s*\[…\]\s*$|\s*\[\.\.\.\]\s*$|\s*…\s*$", "", text).strip()
-    # keep whole sentences only
-    m = list(re.finditer(r"[.!?](?=\s|$)", text))
-    if m and m[-1].end() < len(text) and m[-1].end() > 60:
-        text = text[: m[-1].end()]
-    return text
-
-
 def existing_matches(title, original_url):
     """Posts already in src/posts with the same title, or linking to the same abbyontravel.com URL."""
     hits = []
@@ -666,9 +655,6 @@ def main():
         f"date: {yaml_str(date)}",
         f"category: {yaml_str(category)}",
     ]
-    desc = description_from(post)
-    if desc:
-        fm.append(f"description: {yaml_str(desc)}")
     fm.append("---")
     imports = "".join(f'import {name} from "../components/{name}.astro";\n' for name in sorted(conv.imports))
     mdx = "\n".join(fm) + "\n\n" + (imports + "\n" if imports else "") + body

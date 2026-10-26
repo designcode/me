@@ -131,8 +131,8 @@ _pages_ such as `/travels/a-hike-around-lake-como/` work too). For each post it:
 3. converts the WordPress blocks to MDX: galleries become `<PhotoGallery>`, single images
    become `<figure>` with a caption, YouTube embeds become `<EmbedYoutube>`, Google Maps
    embeds become `<EmbedGoogleMap>`;
-4. writes `src/posts/<date>-<slug>.mdx` with `slug`, `title`, `date`, `category` and
-   `description` frontmatter;
+4. writes `src/posts/<date>-<slug>.mdx` with `slug`, `title`, `date` and `category`
+   frontmatter;
 5. adds a redirect from the old path (e.g. `/2019/10/29/1-day-hike-on-matterhorn-trail`) to
    `/posts/<slug>` in `astro.config.mjs` and runs Prettier on the touched files.
 
