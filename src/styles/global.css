@@ -151,6 +151,23 @@ article ol {
   padding-left: var(--spacing-lg);
 }
 
+/* Tailwind's preflight removes list markers; restore them inside posts */
+article ul {
+  list-style: disc;
+}
+
+article ol {
+  list-style: decimal;
+}
+
+article ul ul {
+  list-style: circle;
+}
+
+article li::marker {
+  color: var(--color-secondary);
+}
+
 article li {
   color: var(--color-foreground);
   margin-bottom: var(--spacing-xs);

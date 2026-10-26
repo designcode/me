@@ -18,7 +18,7 @@ What it does:
   3. Converts the WordPress block HTML into MDX using this repo's components:
      PhotoGallery for galleries, EmbedYoutube for YouTube, EmbedGoogleMap for Google Maps.
   4. Writes src/posts/<date>-<slug>.mdx with frontmatter (slug, title, date, category,
-     description, originalUrl).
+     description).
   5. Adds a redirect from the old abbyontravel.com path to /posts/<slug> in astro.config.mjs
      and runs prettier on the touched files.
 
@@ -669,7 +669,6 @@ def main():
     desc = description_from(post)
     if desc:
         fm.append(f"description: {yaml_str(desc)}")
-    fm.append(f"originalUrl: {yaml_str(original_url)}")
     fm.append("---")
     imports = "".join(f'import {name} from "../components/{name}.astro";\n' for name in sorted(conv.imports))
     mdx = "\n".join(fm) + "\n\n" + (imports + "\n" if imports else "") + body
