@@ -198,6 +198,11 @@ article hr {
   min-height: calc(100vh - 100px);
 }
 
+/* No right sidebar: content takes over its column */
+.site-container--wide {
+  grid-template-columns: 200px 1fr;
+}
+
 @media (max-width: 1024px) {
   .site-container {
     grid-template-columns: 1fr;
