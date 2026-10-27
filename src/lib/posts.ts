@@ -1,20 +1,23 @@
 import type { Post } from "../types/post";
 
 /**
- * Process raw post files into Post objects.
- *
- * The URL slug comes from the post's `slug` frontmatter property, falling back
- * to the filename (sans extension) when none is set.
+ * URL slug of a post: the `slug` frontmatter property, falling back to the
+ * filename (sans extension) when none is set.
+ */
+export function getPostSlug(path: string, post: any): string {
+  const filename = path.split("/").pop()!.replace(".mdx", "");
+  return post.frontmatter.slug ?? filename;
+}
+
+/**
+ * Process raw post files into Post objects. Posts live at the site root:
+ * `/<slug>` (old `/posts/<slug>` links redirect there, see astro.config.mjs).
  */
 export function processPosts(postFiles: Record<string, any>): Post[] {
-  return Object.entries(postFiles).map(([path, post]: [string, any]) => {
-    const filename = path.split("/").pop()!.replace(".mdx", "");
-    const slug = post.frontmatter.slug ?? filename;
-    return {
-      url: `/posts/${slug}`,
-      frontmatter: post.frontmatter,
-    };
-  });
+  return Object.entries(postFiles).map(([path, post]: [string, any]) => ({
+    url: `/${getPostSlug(path, post)}`,
+    frontmatter: post.frontmatter,
+  }));
 }
 
 /**

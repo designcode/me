@@ -1,0 +1,76 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostLayout from "../layouts/PostLayout.astro";
+import PostList from "../components/PostList.astro";
+import CategorySidebar from "../components/CategorySidebar.astro";
+import {
+  processPosts,
+  sortPostsByDate,
+  getUniqueCategories,
+  getUniqueYears,
+  filterPostsByCategory,
+  getPostSlug,
+} from "../lib/posts";
+
+/**
+ * Posts and category listings both live at the root: `/matterhorn` is a post,
+ * `/guides` lists the posts in the Guides category. Astro allows a single
+ * dynamic route per level, so both kinds of page are generated here.
+ */
+export async function getStaticPaths() {
+  const postFiles = import.meta.glob("../posts/*.mdx", { eager: true });
+  const posts = processPosts(postFiles);
+  const categories = getUniqueCategories(posts, false);
+
+  const categoryPaths = categories.map((category) => ({
+    params: { slug: category.toLowerCase() },
+    props: { category, posts },
+  }));
+  const categorySlugs = new Set(categoryPaths.map((p) => p.params.slug));
+
+  const postPaths = Object.entries(postFiles).map(
+    ([path, post]: [string, any]) => {
+      const slug = getPostSlug(path, post);
+      if (categorySlugs.has(slug)) {
+        throw new Error(
+          `Post slug "${slug}" (${path}) clashes with the "${slug}" category page`,
+        );
+      }
+      return { params: { slug }, props: { post } };
+    },
+  );
+
+  return [...categoryPaths, ...postPaths];
+}
+
+const { post, category, posts } = Astro.props;
+const Content = post?.Content;
+
+const filteredPosts = category
+  ? sortPostsByDate(filterPostsByCategory(posts, category))
+  : [];
+const allCategories = category ? getUniqueCategories(posts) : [];
+const years = category ? getUniqueYears(posts) : [];
+---
+
+{
+  post ? (
+    <PostLayout frontmatter={post.frontmatter}>
+      <Content />
+    </PostLayout>
+  ) : (
+    <BaseLayout
+      title={category}
+      description={`Posts in the category ${category}`}
+    >
+      <CategorySidebar
+        categories={allCategories}
+        currentCategory={category}
+        years={years}
+        slot="sidebar"
+      />
+      <h1 class="page-heading">{category}</h1>
+      <PostList posts={filteredPosts} />
+    </BaseLayout>
+  )
+}

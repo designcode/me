@@ -8,6 +8,8 @@ interface Props {
 }
 
 const { title, description = "Thoughts and Ramblings" } = Astro.props;
+// Pages without a right sidebar (e.g. posts) let the content span that column.
+const hasSidebar = Astro.slots.has("sidebar");
 ---
 
 <!doctype html>
@@ -41,7 +43,9 @@ const { title, description = "Thoughts and Ramblings" } = Astro.props;
     </script>
   </head>
   <body class="bg-white text-primary leading-relaxed">
-    <div class="site-container">
+    <div
+      class:list={["site-container", { "site-container--wide": !hasSidebar }]}
+    >
       <aside class="sidebar-left">
         <div class="site-header">
           <div class="site-title-row">
@@ -80,9 +84,13 @@ const { title, description = "Thoughts and Ramblings" } = Astro.props;
         <slot />
       </main>
 
-      <aside class="sidebar-right">
-        <slot name="sidebar" />
-      </aside>
+      {
+        hasSidebar && (
+          <aside class="sidebar-right">
+            <slot name="sidebar" />
+          </aside>
+        )
+      }
     </div>
 
     <footer class="site-footer">
